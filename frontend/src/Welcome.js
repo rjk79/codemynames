@@ -66,7 +66,7 @@ class Welcome extends Component {
                     <div class="form-check">
                         {radioButtons(0)}
                     </div>
-                    <div>Team 2 Color: (pick random if joining existing game)</div>
+                    <div>Team 2 Color: (must be different from other color. pick random if joining existing game)</div>
                     <div class="form-check">
                         {radioButtons(1)}
                     </div>

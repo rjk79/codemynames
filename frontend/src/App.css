@@ -115,6 +115,7 @@
 
 .team-lists {
   display: flex;
+  justify-content: center;
 }
 
 .team-list {
