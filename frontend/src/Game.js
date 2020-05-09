@@ -21,6 +21,7 @@ class Game extends React.Component {
         this.changeTeam = this.changeTeam.bind(this);
         this.changeSpymasterStatus = this.changeSpymasterStatus.bind(this);
         this.teamPlayerLis = this.teamPlayerLis.bind(this);
+        this.numberRevealedIn = this.numberRevealedIn.bind(this);
     }
 
     componentDidMount() {
@@ -33,6 +34,11 @@ class Game extends React.Component {
         this.socket.on("receive game", data => {
             this.setState({ game: data }, () => console.log(this.state))
         });
+    }
+
+    numberRevealedIn(color) {
+        const {cards} = this.state.game
+        return cards.filter(c=>(c.color === color) && c.isRevealed).length
     }
 
     componentWillUnmount() {
@@ -90,7 +96,7 @@ class Game extends React.Component {
     }
 
     render() {
-        const { sendMessage, handleSetMessage, resetGame, makeMove } = this
+        const { sendMessage, handleSetMessage, resetGame, makeMove, numberRevealedIn } = this
         const { message, messages, game } = this.state
         const { currentUser } = this.props
 
@@ -103,6 +109,7 @@ class Game extends React.Component {
         let changeTurnButton
         let team1PlayerLis
         let team2PlayerLis
+        let score
         if (game) {
             currentUserObject = Object.values(game.players).filter(p => p.username === currentUser)[0]
             yourColor = game ? currentUserObject.color : null
@@ -110,6 +117,11 @@ class Game extends React.Component {
             changeTurnButton = game.currentTurnColor === yourColor ? <button className="btn btn-info" onClick={this.changeTurn}>End Your Team's Turn</button> : null
             team1PlayerLis = this.teamPlayerLis(1)
             team2PlayerLis = this.teamPlayerLis(2)
+            score = <div>
+                <div style={{color: game.color1}}>{9 - numberRevealedIn(game.color1)}</div> 
+                -
+                <div style={{color: game.color2}}>{8 - numberRevealedIn(game.color2)}</div>
+            </div>
         }
         return (
             <div className="App">                
@@ -119,7 +131,8 @@ class Game extends React.Component {
                             <div>Room Code: {gameName}</div>
                             <div>Your Username: {currentUser}</div>
                         </div>
-                        <div className="color-reminder on-white" style={game ? {color: translateColor(yourColor)} : {}}>You are on {yourColor && yourColor.toUpperCase()} Team</div>
+                        {/* <div className="color-reminder on-white" style={game ? {color: translateColor(yourColor)} : {}}>You are on {yourColor && yourColor.toUpperCase()} Team</div> */}
+                        <div className="color-reminder on-white">{score}</div>
                         <div className="color-reminder" style={game ? { background: translateColor(game.currentTurnColor) } : {}}>
                             <div>It's {game && game.currentTurnColor.toUpperCase()} Team's Turn </div>
                             {changeTurnButton}

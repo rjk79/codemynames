@@ -70,7 +70,7 @@ class Welcome extends Component {
                     <div class="form-check">
                         {radioButtons(1)}
                     </div>
-
+                    <div>Made by the Robby</div>
                     <input className="btn btn-primary" type="submit" value="Submit" />
                 </form>
             </div>

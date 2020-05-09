@@ -12,7 +12,8 @@ ul {
 .card {
     font-weight: 600;
     background: rgb(230, 210, 180);
-    border: 2px solid gray;
+    /* border: 2px solid gray; */
+    box-shadow: 2px 2px 2px 2px rgb(200, 200, 200);
     border-radius: 5px;
     height: 19%;
     width: 19%;

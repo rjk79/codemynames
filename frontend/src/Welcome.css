@@ -6,6 +6,14 @@
     justify-content: center;
 }
 
+.welcome .title {
+    text-align: center;
+}
+
+.welcome form {
+    text-align: center;
+}
+
 .form-check > *{
     margin: 5px;
 }
