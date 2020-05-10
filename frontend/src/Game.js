@@ -3,6 +3,7 @@ import React from "react";
 // import io from "socket.io-client";
 import './App.css'
 import {translateColor} from './utils'
+import {Link} from 'react-router-dom'
 
 class Game extends React.Component {
     constructor(props) {
@@ -154,6 +155,7 @@ class Game extends React.Component {
                             </div>
                         </div>
                         <div className="game-controls">
+                            {/* <Link className="btn btn-info" to="/">Return to Home Page</Link> */}
                             <button className="btn btn-info" onClick={this.changeTeam}>Change Team</button>
                             <button className="btn btn-info" onClick={this.changeSpymasterStatus}>(Un)View as Spymaster</button>
                         </div>
