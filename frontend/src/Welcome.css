@@ -8,6 +8,9 @@
 
 .welcome .title {
     text-align: center;
+    border: 2px solid black;
+    padding: 5px;
+    margin: 5px;
 }
 
 .welcome form {
@@ -20,4 +23,8 @@
 
 .form-check input {
     margin: 2px;
+}
+
+.credits {
+    text-align: right;
 }

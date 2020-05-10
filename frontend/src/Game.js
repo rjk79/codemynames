@@ -145,17 +145,17 @@ class Game extends React.Component {
                         />
                         <div className="team-lists">
                             <div className="team-list">
-                                <div>Team {game && game.color1.toUpperCase()}:</div>
+                                <div style={{ color: game ? translateColor(game.color1) : ""}}>Team {game && game.color1.toUpperCase()}:</div>
                                 {team1PlayerLis}
                             </div>
                             <div className="team-list">
-                                <div>Team {game && game.color2.toUpperCase()}:</div>
+                                <div style={{ color: game ? translateColor(game.color2) : "" }}>Team {game && game.color2.toUpperCase()}:</div>
                                 {team2PlayerLis}
                             </div>
                         </div>
                         <div className="game-controls">
                             <button className="btn btn-info" onClick={this.changeTeam}>Change Team</button>
-                            <button className="btn btn-info" onClick={this.changeSpymasterStatus}>View/Unview as Spymaster</button>
+                            <button className="btn btn-info" onClick={this.changeSpymasterStatus}>(Un)View as Spymaster</button>
                         </div>
                     </div>
                     <div className="messaging-controls">
