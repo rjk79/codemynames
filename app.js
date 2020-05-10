@@ -101,6 +101,7 @@ io.on('connection', (socket) => {
         game = new Game(gameId, game.color1, game.color2)
         game.players = currPlayers
         lobby[gameId] = game
+        sendMessageToAllPlayers(gameId, "started a new game!", socket.id)
         sendGameToAllPlayers(gameId)
     })
 

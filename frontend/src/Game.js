@@ -90,7 +90,7 @@ class Game extends React.Component {
         return Object.values(game.players).filter(p => p.color === game['color' + num.toString()]).map((p, i) => {
             const spymasterLabel = p.isSpymaster ? <i className="fas fa-user-secret"></i> : null
             return (
-                <li key={i} style={{ color: p.color }}>{p.username} {spymasterLabel}</li>
+                <li key={i} style={{ color: translateColor(p.color) }}>{p.username} {spymasterLabel}</li>
             )
         })
     }
@@ -119,9 +119,9 @@ class Game extends React.Component {
             team1PlayerLis = this.teamPlayerLis(1)
             team2PlayerLis = this.teamPlayerLis(2)
             score = <div>
-                <div style={{color: game.color1}}>{9 - numberRevealedIn(game.color1)}</div> 
+                <div style={{color: translateColor(game.color1)}}>{9 - numberRevealedIn(game.color1)}</div> 
                 -
-                <div style={{color: game.color2}}>{8 - numberRevealedIn(game.color2)}</div>
+                <div style={{color: translateColor(game.color2)}}>{8 - numberRevealedIn(game.color2)}</div>
             </div>
         }
         return (
