@@ -28,14 +28,19 @@ class Board extends Component {
                     const clickEffect = canClick ? makeMove(5 * i + j) : null
 
                     const style = {}
-                    if (card.isRevealed || isSpymaster || isOver) style.background = color 
-                    if (style.background && !card.isRevealed) style.filter = "brightness(50%)"
+                    // normal view, spymaster view, game over view
+                    if (card.isRevealed) {
+                        style.background = color 
+                        if (card.color !== 'black') style.color = 'rgb(55, 55, 55)'
+                    } else if (isSpymaster || isOver) {
+                        style.color = color
+                    }
 
                     rowItems.push(
                         <div key={j} className={"card " + borderable} onClick={clickEffect} style={style}>
-                            <div>
+                            {/* <div> */}
                                 {card.word}
-                            </div>
+                            {/* </div> */}
                         </div>)
                 }
                 grid.push(

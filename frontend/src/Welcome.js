@@ -25,6 +25,7 @@ class Welcome extends Component {
         const {currentUser, socket} = this.props
         e.preventDefault()
         if (!colors[0] || !colors[1] || (colors[0] === colors[1]) || !currentUser.length || !gameName.length) return;
+        
         socket.emit('join lobby', { gameName, currentUser, colors })
         this.props.history.push("/game")
     }

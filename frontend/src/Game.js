@@ -88,7 +88,7 @@ class Game extends React.Component {
     teamPlayerLis (num) {
         const {game} = this.state
         return Object.values(game.players).filter(p => p.color === game['color' + num.toString()]).map((p, i) => {
-            const spymasterLabel = p.isSpymaster ? "[SPYMASTER]" : null
+            const spymasterLabel = p.isSpymaster ? <i className="fas fa-user-secret"></i> : null
             return (
                 <li key={i} style={{ color: p.color }}>{p.username} {spymasterLabel}</li>
             )
@@ -100,9 +100,7 @@ class Game extends React.Component {
         const { message, messages, game } = this.state
         const { currentUser } = this.props
 
-        const messageLis = messages.map((m, i) => 
-            <div key={i}><strong>{m.name}</strong>{":" + m.message}</div>
-        )
+        let messageLis 
         let currentUserObject
         let yourColor
         let gameName
@@ -111,6 +109,9 @@ class Game extends React.Component {
         let team2PlayerLis
         let score
         if (game) {
+            messageLis = messages.map((m, i) =>
+                <div key={i} style={{}}><strong>{m.name}</strong>{":" + m.message}</div>
+            )
             currentUserObject = Object.values(game.players).filter(p => p.username === currentUser)[0]
             yourColor = game ? currentUserObject.color : null
             gameName = game ? game.id : null
@@ -134,7 +135,7 @@ class Game extends React.Component {
                         {/* <div className="color-reminder on-white" style={game ? {color: translateColor(yourColor)} : {}}>You are on {yourColor && yourColor.toUpperCase()} Team</div> */}
                         <div className="color-reminder on-white">{score}</div>
                         <div className="color-reminder" style={game ? { background: translateColor(game.currentTurnColor) } : {}}>
-                            <div>It's {game && game.currentTurnColor.toUpperCase()} Team's Turn </div>
+                            <div>{game && game.currentTurnColor.toUpperCase()}'s Turn </div>
                             {changeTurnButton}
                         </div>
 
