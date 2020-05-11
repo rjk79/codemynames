@@ -2,22 +2,22 @@ export function translateColor(color) {
     let res
     switch (color) {
         case "red":
-            res = "lightcoral"
+            res = "red"
             break
         case "orange":
             res = "orange"
             break
         case "yellow":
-            res = "gold"
+            res = "yellow"
             break
         case "green":
-            res = "greenyellow"
+            res = "green"
             break
         case "blue":
-            res = "lightblue"
+            res = "blue"
             break
         case "purple":
-            res = "darkorchid"
+            res = "purple"
             break
         case "pink":
             res = "pink"

@@ -50,7 +50,7 @@ class Welcome extends Component {
     }
 
     colorRadioButtons(idx) {
-        const colors = ["red", "orange", "yellow", "green", "blue", "purple", "pink"]
+        const colors = ["red", "orange", "green", "blue", "purple", "pink"]
         return colors.map((c, i) => (
             <label key={i}>
                 <input type="radio" className="form-check-input" value={c} checked={this.state.colors[idx] === c} onChange={this.setColor(idx)} />

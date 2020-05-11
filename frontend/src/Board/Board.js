@@ -31,9 +31,22 @@ class Board extends Component {
                     // normal view, spymaster view, game over view
                     if (card.isRevealed) {
                         style.background = color 
-                        if (card.color !== 'black') style.color = 'rgb(55, 55, 55)'
+                        if (card.color === 'white') {
+                            style.color = 'black'
+                        } 
+                        else if (card.color === 'black') {
+                            style.color = 'white'
+                        }
+                        else {
+                            style.color = 'rgb(55, 55, 55)' //black
+                        }
                     } else if (isSpymaster || isOver) {
-                        style.color = color
+                        //background is white
+                        if (card.color === 'white') {
+                            style.color = 'rgb(105, 105, 105)'
+                        } else {
+                            style.color = color
+                        }
                     }
 
                     rowItems.push(
