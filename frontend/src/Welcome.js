@@ -8,7 +8,8 @@ class Welcome extends Component {
         this.state = {
             joiningExisting: "true",
             gameName: "",
-            colors: ["red", "blue"]
+            colors: ["red", "blue"],
+            wordPack: "1"
         }
 
         this.handleSetGameName = this.handleSetGameName.bind(this);
@@ -28,15 +29,15 @@ class Welcome extends Component {
     }
 
     handleSubmitCurrentUser(e) {
-        const { gameName, colors, joiningExisting } = this.state
+        const { gameName, colors, joiningExisting, wordPack } = this.state
         const {currentUser, socket} = this.props
         e.preventDefault()
         if (joiningExisting === "true") {
-            socket.emit('join lobby', { gameName, currentUser, colors: ["red", "red"] })
+            socket.emit('join lobby', { gameName, currentUser, colors, wordPack })
         }
         else {
             if (!colors[0] || !colors[1] || (colors[0] === colors[1]) || !currentUser.length || !gameName.length) return;
-            socket.emit('join lobby', { gameName, currentUser, colors })
+            socket.emit('join lobby', { gameName, currentUser, colors, wordPack })
         }
         this.props.history.push("/game")
     }
@@ -49,6 +50,12 @@ class Welcome extends Component {
         }
     }
 
+    setWordPack() {
+        return e => {
+            this.setState({wordPack: e.target.value}, ()=>console.log(this.state))
+        }
+    }
+
     colorRadioButtons(idx) {
         const colors = ["red", "orange", "green", "blue", "purple", "pink"]
         return colors.map((c, i) => (
@@ -56,8 +63,18 @@ class Welcome extends Component {
                 <input type="radio" className="form-check-input" value={c} checked={this.state.colors[idx] === c} onChange={this.setColor(idx)} />
                 {c}
             </label>
-
         ))  
+    }
+
+    wordPackRadioButtons() {
+        return ["1", "2"].map((n, i) => (
+            <>
+                <label key={i}>
+                    <input type="radio" className="form-check-input" value={n} checked={this.state.wordPack === n} onChange={this.setWordPack()} />
+                    Pack {n} {n === "1" ? "(Original)" : ""}
+                </label>
+            </>
+        ))
     }
 
     joiningExistingRadioButtons() {
@@ -81,14 +98,18 @@ class Welcome extends Component {
         const {props, colorRadioButtons, handleSetGameName, handleSubmitCurrentUser, joiningExistingRadioButtons} = this
         const {gameName, joiningExisting} = this.state
 
-        let colorInputs = joiningExisting === "false" ? (<>
-            <div>Team 1:</div>
+        let newGameInputs = joiningExisting === "false" ? (<>
+            <div className="prompt">Team 1:</div>
             <div class="form-check">
                 {colorRadioButtons(0)}
             </div>
-            <div>Team 2: (must be different)</div>
+            <div className="prompt">Team 2: (must be different)</div>
             <div class="form-check">
                 {colorRadioButtons(1)}
+            </div>
+            <div className="prompt">Word Pack:</div>
+            <div className="form-check">
+                {this.wordPackRadioButtons()}
             </div>
         </>) : null
 
@@ -106,7 +127,7 @@ class Welcome extends Component {
                         <input type="text" onChange={handleSetGameName} value={gameName} placeholder={joiningExisting === "true" ? "Enter Room Code" : "Choose Room Code"} className="form-control" />
                     </div>
 
-                    {colorInputs}
+                    {newGameInputs}
 
                     <input className="btn btn-primary" type="submit" value="Submit" />
                 </form>

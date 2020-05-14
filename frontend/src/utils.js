@@ -14,7 +14,7 @@ export function translateColor(color) {
             res = "green"
             break
         case "blue":
-            res = "blue"
+            res = "darkturquoise"
             break
         case "purple":
             res = "purple"

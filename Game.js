@@ -1,9 +1,10 @@
 const WORDS = require('./constants')
+const WORDS_1 = require('./constants')
 const Card = require("./Card")
 const Player = require("./Player")
 
 class Game {
-    constructor(id, color1, color2) {
+    constructor(id, color1, color2, wordPack) {
         this.id = id
         this.cards = []
         this.players = {}      
@@ -14,6 +15,7 @@ class Game {
         this.shouldChangeTurn = false
         this.color1 = color1
         this.color2 = color2
+        this.wordPack = wordPack
 
         const colors = [color1, color2, 'white', 'black']
         const amounts = [9, 8, 7, 1]
@@ -43,14 +45,15 @@ class Game {
     }
 
     makeCards(color, amount, cards) {
+        const words = WORDS[this.wordPack]
         let res = []
         for (let i = 0; i < amount; i++) {
             let randomIdx = Math.floor(Math.random() * 400) //400 words. highest random # is ~399.999 => 399
             const chosenWords = cards.map(c => c.word).concat(res.map(c => c.word))
-            while (chosenWords.includes(WORDS[randomIdx])) {
+            while (chosenWords.includes(words[randomIdx])) {
                 randomIdx = Math.floor(Math.random() * 400)
             }
-            res.push(new Card(color, WORDS[randomIdx], randomIdx))
+            res.push(new Card(color, words[randomIdx], randomIdx))
         }
         return res
     }

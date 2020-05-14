@@ -84,9 +84,9 @@ io.on('connection', (socket) => {
         //send message to clients. use io instead of socket to emit to all other sockets
     })
 
-    socket.on('join lobby', ({gameName, currentUser, colors}) => {
+    socket.on('join lobby', ({gameName, currentUser, colors, wordPack}) => {
         const gameId = gameName
-        if (!(gameId in lobby)) lobby[gameId] = new Game(gameId, colors[0], colors[1]);
+        if (!(gameId in lobby)) lobby[gameId] = new Game(gameId, colors[0], colors[1], wordPack);
         const game = lobby[gameId]
         game.addPlayer(socket.id, currentUser)
         sendMessageToAllPlayers(gameId, "joined the game!", socket.id)
@@ -98,7 +98,7 @@ io.on('connection', (socket) => {
         if (!gameExists(gameId, socket.id)) return; 
 
         let currPlayers = game.players
-        game = new Game(gameId, game.color1, game.color2)
+        game = new Game(gameId, game.color1, game.color2, game.wordPack)
         game.players = currPlayers
         lobby[gameId] = game
         sendMessageToAllPlayers(gameId, "started a new game!", socket.id)
