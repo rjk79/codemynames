@@ -2,8 +2,12 @@ class Card {
     constructor(color, word, idx) {
         this.isRevealed = false
         this.color = color
-        this.word = word
+        this.word = this.capitalize(word)
         this.idx = idx
+    }
+
+    capitalize(word) {
+        return word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
     }
 }
 

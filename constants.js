@@ -575,7 +575,7 @@ module.exports = WORDS = {
     "Volcano",
     "Judge",
     "Mile",
-    "Tipi",
+    "Teepee",
     "Baby",
     "Stethoscope",
     "Dream",
