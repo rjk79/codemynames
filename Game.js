@@ -50,6 +50,7 @@ class Game {
         for (let i = 0; i < amount; i++) {
             let randomIdx = Math.floor(Math.random() * words.length) //400 words. highest random # is ~399.999 => 399
             const chosenWords = cards.map(c => c.word).concat(res.map(c => c.word))
+            
             while (chosenWords.includes(words[randomIdx])) {
                 randomIdx = Math.floor(Math.random() * words.length)
             }

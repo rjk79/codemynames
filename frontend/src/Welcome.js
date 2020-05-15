@@ -67,11 +67,12 @@ class Welcome extends Component {
     }
 
     wordPackRadioButtons() {
+        const labels = ["(Original)", "", "(Rock Climbing)"]
         return ["1", "2", "3"].map((n, i) => (
             <>
                 <label key={i}>
                     <input type="radio" className="form-check-input" value={n} checked={this.state.wordPack === n} onChange={this.setWordPack()} />
-                    Pack {n} {n === "1" ? "(Original)" : ""}
+                    Pack {n} {labels[parseInt(n)-1]}
                 </label>
             </>
         ))
