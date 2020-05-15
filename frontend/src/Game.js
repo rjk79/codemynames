@@ -111,12 +111,12 @@ class Game extends React.Component {
         let score
         if (game) {
             messageLis = messages.map((m, i) =>
-                <div key={i} style={{}}><strong>{m.name}</strong>{":" + m.message}</div>
+                <div key={i} style={{}}><strong>{m.name}</strong>{": " + m.message}</div>
             )
             currentUserObject = Object.values(game.players).filter(p => p.username === currentUser)[0]
             yourColor = game ? currentUserObject.color : null
             gameName = game ? game.id : null
-            changeTurnButton = game.currentTurnColor === yourColor ? <button className="btn btn-info" onClick={this.changeTurn}>End Your Team's Turn</button> : null
+            changeTurnButton = game.currentTurnColor === yourColor ? <button className="btn btn-primary" onClick={this.changeTurn}>End Your Team's Turn</button> : null
             team1PlayerLis = this.teamPlayerLis(1)
             team2PlayerLis = this.teamPlayerLis(2)
             score = <div>
@@ -155,9 +155,9 @@ class Game extends React.Component {
                             </div>
                         </div>
                         <div className="game-controls">
-                            {/* <Link className="btn btn-info" to="/">Return to Home Page</Link> */}
-                            <button className="btn btn-info" onClick={this.changeTeam}>Change Team</button>
-                            <button className="btn btn-info" onClick={this.changeSpymasterStatus}>(Un)View as Spymaster</button>
+                            {/* <Link className="btn btn-primary" to="/">Return to Home Page</Link> */}
+                            <button className="btn btn-primary" onClick={this.changeTeam}>Change Team</button>
+                            <button className="btn btn-primary" onClick={this.changeSpymasterStatus}>(Un)View as Spymaster</button>
                         </div>
                     </div>
                     <div className="messaging-controls">
@@ -169,7 +169,7 @@ class Game extends React.Component {
                             <input type="text" onChange={handleSetMessage} value={message} placeholder="Message"/>
                             <input type="submit" value="Send Message" className="btn btn-primary send" />
                         </form>
-                        <button className="btn btn-warning" onClick={resetGame}>New Game</button>
+                        <button className="btn btn-primary" onClick={resetGame}>New Game</button>
                     </div>
                 </div>
             </div>

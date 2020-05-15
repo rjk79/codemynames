@@ -38,12 +38,15 @@ class Board extends Component {
                             style.color = 'white'
                         }
                         else {
-                            style.color = 'rgb(55, 55, 55)' //black
+                            style.color = "black"
                         }
                     } else if (isSpymaster || isOver) {
                         //background is white
+                        style.border = "2px solid " + color
                         if (card.color === 'white') {
-                            style.color = 'rgb(105, 105, 105)'
+                            const gray = 'rgb(105, 105, 105)'
+                            style.color = gray
+                            style.border = "2px solid " + gray
                         } else {
                             style.color = color
                         }
@@ -52,7 +55,7 @@ class Board extends Component {
                     rowItems.push(
                         <div key={j} className={"card " + borderable} onClick={clickEffect} style={style}>
                             {/* <div> */}
-                                {card.word}
+                                {card.word}{card.color === 'black' && isSpymaster? <i className="fas fa-user-ninja"></i> : null}
                             {/* </div> */}
                         </div>)
                 }

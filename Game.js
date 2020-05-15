@@ -20,7 +20,7 @@ class Game {
         const colors = [color1, color2, 'white', 'black']
         const amounts = [9, 8, 7, 1]
         for (let i=0; i<colors.length; i++) {
-            const newCards = this.makeCards(colors[i], amounts[i], this.cards)
+            const newCards = this.makeCards(colors[i], amounts[i])
             this.cards = this.cards.concat(newCards)
         }
         
@@ -44,13 +44,14 @@ class Game {
         return res
     }
 
-    makeCards(color, amount, cards) {
+    makeCards(color, amount) {
+        const cards = this.cards
         const words = WORDS[this.wordPack]
         let res = []
         for (let i = 0; i < amount; i++) {
             let randomIdx = Math.floor(Math.random() * words.length) //400 words. highest random # is ~399.999 => 399
             const chosenWords = cards.map(c => c.word).concat(res.map(c => c.word))
-            
+
             while (chosenWords.includes(words[randomIdx])) {
                 randomIdx = Math.floor(Math.random() * words.length)
             }
