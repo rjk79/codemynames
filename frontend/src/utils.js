@@ -32,3 +32,9 @@ export function translateColor(color) {
     }
     return res
 }
+
+export function formatSeconds(sec) {
+    let resSeconds = `${sec % 60}`
+    if (sec % 60 < 10) resSeconds = "0" + resSeconds
+    return `${ Math.floor(sec / 60) }:` + resSeconds
+}

@@ -10,6 +10,7 @@ class Game {
         this.players = {}      
         this.messages = []
         this.currentTurnColor = color1
+        this.turnTime = 0
         this.winner = null
         this.mostRecentMove = null
         this.shouldChangeTurn = false
@@ -67,6 +68,7 @@ class Game {
 
     changeTurn() {
         this.currentTurnColor = this.otherColor(this.currentTurnColor)
+        this.turnTime = 0
     }
 
     changeTeam(playerId) {

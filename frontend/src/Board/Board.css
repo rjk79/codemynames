@@ -36,25 +36,25 @@ ul {
     align-items: center;
 }
 
-.borderable::before, card::after {
+.borderable::before, .borderable::after {
     position: absolute;
     content: "";
     border-radius: 5px;
 }
 
-/* .card::after {
+.borderable::after {
     width: 0px;
     height: 100%;
-    border-top: 2px solid rebeccapurple;
-    border-bottom: 2px solid rebeccapurple;
+    border-top: 3px solid rebeccapurple;
+    border-bottom: 3px solid rebeccapurple;
     transition: width .3s;
-} */
+} 
 
 .borderable::before {
     width: 100%;
     height: 0px;
-    border-left: 3px solid springgreen;
-    border-right: 3px solid springgreen;
+    border-left: 3px solid rebeccapurple;
+    border-right: 3px solid rebeccapurple;
     transition: height .3s;
 }
 
@@ -63,11 +63,10 @@ ul {
     transition: height .3s;
 }
 
-/* .card:hover::after {
-    content: "";
+.card:hover::after {
     width: 100%;
     transition: width .3s;
-} */
+}
 
 .borderable:hover {
     cursor: pointer;

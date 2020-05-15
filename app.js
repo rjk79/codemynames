@@ -147,3 +147,10 @@ io.on('connection', (socket) => {
         sendMessageToAllPlayers(gameId, "--CHANGED SPYMASTER STATUS!--", socket.id)
     })
 });
+
+setInterval(() => {
+    Object.keys(lobby).forEach(gameId => {
+        lobby[gameId].turnTime += 1
+        sendGameToAllPlayers(gameId)
+    })
+}, 1000)

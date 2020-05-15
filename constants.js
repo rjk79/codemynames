@@ -958,10 +958,21 @@ module.exports = WORDS = {
     "trad dad",
     "trad mom",
     "tanktop",
+    "tapeglove",
     "vegetarian",
     "vertigo",
     "whipper",
     "wound",
     "wall",
-    "water"]
+    "water"],
+    4: [
+    "beef",
+    "boxing",
+    "cape",
+    "bud",
+    "count",
+    "hip",
+    "interest",
+    "tab",
+    ]
 }

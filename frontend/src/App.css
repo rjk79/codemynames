@@ -110,6 +110,10 @@
   justify-content: center;
 }
 
+.turn-time {
+  width: 50px !important;;
+}
+
 .game-controls {
   display: flex;
   justify-content: space-around;

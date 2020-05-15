@@ -2,7 +2,7 @@ import Board from './Board/Board'
 import React from "react";
 // import io from "socket.io-client";
 import './App.css'
-import {translateColor} from './utils'
+import { translateColor, formatSeconds } from './utils'
 import {Link} from 'react-router-dom'
 
 class Game extends React.Component {
@@ -13,6 +13,7 @@ class Game extends React.Component {
             messages: [],
             message: "",
             game: null,
+            timeShowing: true,
         }
         this.handleSetMessage = this.handleSetMessage.bind(this)
         this.sendMessage = this.sendMessage.bind(this);
@@ -23,6 +24,7 @@ class Game extends React.Component {
         this.changeSpymasterStatus = this.changeSpymasterStatus.bind(this);
         this.teamPlayerLis = this.teamPlayerLis.bind(this);
         this.numberRevealedIn = this.numberRevealedIn.bind(this);
+        this.setTimeShowing = this.setTimeShowing.bind(this);
     }
 
     componentDidMount() {
@@ -86,6 +88,10 @@ class Game extends React.Component {
         this.socket.emit('change spymaster status', { gameId: id })
     }
 
+    setTimeShowing() {
+        this.setState({timeShowing: !this.state.timeShowing})
+    }
+
     teamPlayerLis (num) {
         const {game} = this.state
         return Object.values(game.players).filter(p => p.color === game['color' + num.toString()]).map((p, i) => {
@@ -98,7 +104,7 @@ class Game extends React.Component {
 
     render() {
         const { sendMessage, handleSetMessage, resetGame, makeMove, numberRevealedIn } = this
-        const { message, messages, game } = this.state
+        const { message, messages, game, timeShowing } = this.state
         const { currentUser } = this.props
 
         let messageLis 
@@ -109,6 +115,7 @@ class Game extends React.Component {
         let team1PlayerLis
         let team2PlayerLis
         let score
+        let turnTime
         if (game) {
             messageLis = messages.map((m, i) =>
                 <div key={i} style={{}}><strong>{m.name}</strong>{": " + m.message}</div>
@@ -124,6 +131,7 @@ class Game extends React.Component {
                 -
                 <div style={{color: translateColor(game.color2)}}>{8 - numberRevealedIn(game.color2)}</div>
             </div>
+            if (timeShowing) turnTime = formatSeconds(game.turnTime);
         }
         return (
             <div className="App">                
@@ -136,6 +144,7 @@ class Game extends React.Component {
                         {/* <div className="color-reminder on-white" style={game ? {color: translateColor(yourColor)} : {}}>You are on {yourColor && yourColor.toUpperCase()} Team</div> */}
                         <div className="color-reminder on-white">{score}</div>
                         <div className="color-reminder" style={game ? { background: translateColor(game.currentTurnColor) } : {}}>
+                            <div className="turn-time">{turnTime}</div>
                             <div>{game && game.currentTurnColor.toUpperCase()}'s Turn </div>
                             {changeTurnButton}
                         </div>
@@ -158,6 +167,7 @@ class Game extends React.Component {
                             {/* <Link className="btn btn-primary" to="/">Return to Home Page</Link> */}
                             <button className="btn btn-primary" onClick={this.changeTeam}>Change Team</button>
                             <button className="btn btn-primary" onClick={this.changeSpymasterStatus}>(Un)View as Spymaster</button>
+                            <button className="btn btn-primary" onClick={this.setTimeShowing}>Show/Hide Timer</button>
                         </div>
                     </div>
                     <div className="messaging-controls">
