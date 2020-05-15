@@ -73,5 +73,6 @@ ul {
     animation: flashing 1s ease-in-out infinite;
 }
 
-
-
+.fa-user-ninja {
+    margin-left: 5px;
+}

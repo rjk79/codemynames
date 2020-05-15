@@ -117,9 +117,12 @@ class Game extends React.Component {
         let score
         let turnTime
         if (game) {
-            messageLis = messages.map((m, i) =>
-                <div key={i} style={{}}><strong>{m.name}</strong>{": " + m.message}</div>
-            )
+            messageLis = []
+            messages.forEach((m, i) => {
+                const playerColor = Object.values(game.players).filter(p => p.username === m.name)[0].color
+                messageLis.push(<div key={i} ><strong style={{color: playerColor}}>{m.name}</strong>{": " + m.message}</div>)
+            })
+            
             currentUserObject = Object.values(game.players).filter(p => p.username === currentUser)[0]
             yourColor = game ? currentUserObject.color : null
             gameName = game ? game.id : null
