@@ -67,7 +67,7 @@ class Welcome extends Component {
     }
 
     wordPackRadioButtons() {
-        const labels = ["(Original)", "", "(Rock Climbing)", "Less Pronouns"]
+        const labels = ["(Original)", "(Expansion)", "(Rock Climbing)", "(Expert Words)"]
         return ["1", "2", "3", "4"].map((n, i) => (
             <>
                 <label key={i}>
@@ -100,7 +100,7 @@ class Welcome extends Component {
         const {gameName, joiningExisting} = this.state
 
         let newGameInputs = joiningExisting === "false" ? (<>
-            <div className="prompt">Team 1:</div>
+            {/* <div className="prompt">Team 1:</div> */}
             {/* <div class="form-check">
                 {colorRadioButtons(0)}
             </div>
@@ -122,10 +122,10 @@ class Welcome extends Component {
                         {joiningExistingRadioButtons()}
                     </div>
                     <div className="form-group">
-                        <input type="text" onChange={props.handleSetCurrentUser} value={props.currentUser} placeholder="Choose Your Username" className="form-control" />
+                        <input type="text" onChange={props.handleSetCurrentUser} value={props.currentUser} placeholder="Your Name" className="form-control" />
                     </div>
                     <div className="form-group">
-                        <input type="text" onChange={handleSetGameName} value={gameName} placeholder={joiningExisting === "true" ? "Enter Room Code" : "Choose Room Code"} className="form-control" />
+                        <input type="text" onChange={handleSetGameName} value={gameName} placeholder={joiningExisting === "true" ? "Your Room Code" : "Choose Room Code"} className="form-control" />
                     </div>
 
                     {newGameInputs}
