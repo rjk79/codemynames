@@ -22,6 +22,7 @@ class Game extends React.Component {
         this.changeTurn = this.changeTurn.bind(this);
         this.changeTeam = this.changeTeam.bind(this);
         this.changeSpymasterStatus = this.changeSpymasterStatus.bind(this);
+        this.changeUndercoverStatus = this.changeUndercoverStatus.bind(this);
         this.teamPlayerLis = this.teamPlayerLis.bind(this);
         this.numberRevealedIn = this.numberRevealedIn.bind(this);
         this.setTimeShowing = this.setTimeShowing.bind(this);
@@ -88,13 +89,18 @@ class Game extends React.Component {
         this.socket.emit('change spymaster status', { gameId: id })
     }
 
+    changeUndercoverStatus() {
+        const { id } = this.state.game
+        this.socket.emit('change undercover status', { gameId: id })
+    }
+
     setTimeShowing() {
         this.setState({timeShowing: !this.state.timeShowing})
     }
 
     teamPlayerLis (num) {
         const {game} = this.state
-        return Object.values(game.players).filter(p => p.color === game['color' + num.toString()]).map((p, i) => {
+        return Object.values(game.players).filter(p => p.color === (game['color' + num.toString()]) && !p.isUndercover).map((p, i) => {
             const spymasterLabel = p.isSpymaster ? <i className="fas fa-user-secret"></i> : null
             return (
                 <li key={i} style={{ color: translateColor(p.color) }}>{p.username} {spymasterLabel}</li>
@@ -114,13 +120,18 @@ class Game extends React.Component {
         let changeTurnButton
         let team1PlayerLis
         let team2PlayerLis
+        let undercoverLis
         let score
         let turnTime
+        let spyMasterButton 
+        let undercoverButton
         if (game) {
             messageLis = []
             messages.forEach((m, i) => {
-                const playerColor = Object.values(game.players).filter(p => p.username === m.name)[0].color
-                messageLis.push(<div key={i} ><strong style={{color: translateColor(playerColor)}}>{m.name}</strong>{": " + m.message}</div>)
+                const sender = Object.values(game.players).filter(p => p.username === m.name)[0]
+                if (!sender) debugger
+                const playerColor = sender.color
+                messageLis.push(<div key={i} ><strong style={!sender.isUndercover ? {color: translateColor(playerColor)} : {}}>{m.name}</strong>{": " + m.message}</div>)
             })
             
             currentUserObject = Object.values(game.players).filter(p => p.username === currentUser)[0]
@@ -135,6 +146,10 @@ class Game extends React.Component {
                 <div style={{color: translateColor(game.color2)}}>{8 - numberRevealedIn(game.color2)}</div>
             </div>
             if (timeShowing) turnTime = formatSeconds(game.turnTime);
+
+            spyMasterButton = !currentUserObject.isSpymaster ? <button className="btn btn-primary" onClick={this.changeSpymasterStatus}>{!currentUserObject.isSpymaster ? "Become Spymaster" : "Stop Being Spymaster"} </button> : null
+            undercoverButton = !currentUserObject.isSpymaster ? <button className="btn btn-primary" onClick={this.changeUndercoverStatus}>{!currentUserObject.isUndercover ? "Go Undercover" : "Stop Being Undercover"} </button> : null
+            undercoverLis = Object.values(game.players).filter(p => p.isUndercover).map((p, i) => (<li key={i}>{p.username}</li>))
         }
         return (
             <div className="App">                
@@ -165,12 +180,17 @@ class Game extends React.Component {
                                 <div style={{ color: game ? translateColor(game.color2) : "" }}>Team {game && game.color2.toUpperCase()}:</div>
                                 {team2PlayerLis}
                             </div>
+                            <div className="team-list">
+                                <div style={{ color: "gray" }}>Undercover Agents:</div>
+                                {undercoverLis}
+                            </div>
                         </div>
                         <div className="game-controls">
                             {/* <Link className="btn btn-primary" to="/">Return to Home Page</Link> */}
                             <button className="btn btn-primary" onClick={this.changeTeam}>Change Team</button>
-                            <button className="btn btn-primary" onClick={this.changeSpymasterStatus}>(Un)View as Spymaster</button>
+                            {spyMasterButton}
                             <button className="btn btn-primary" onClick={this.setTimeShowing}>Show/Hide Timer</button>
+                            {undercoverButton}
                         </div>
                     </div>
                     <div className="messaging-controls">

@@ -89,8 +89,8 @@ io.on('connection', (socket) => {
         if (!(gameId in lobby)) lobby[gameId] = new Game(gameId, colors[0], colors[1], wordPack);
         const game = lobby[gameId]
         game.addPlayer(socket.id, currentUser)
-        sendMessageToAllPlayers(gameId, "joined the game!", socket.id)
         sendGameToAllPlayers(gameId)
+        sendMessageToAllPlayers(gameId, "joined the game!", socket.id)
     })
 
     socket.on('reset game', gameId => {
@@ -145,6 +145,16 @@ io.on('connection', (socket) => {
         game.players[socket.id].isSpymaster = !game.players[socket.id].isSpymaster
         sendGameToAllPlayers(gameId)
         sendMessageToAllPlayers(gameId, "--CHANGED SPYMASTER STATUS!--", socket.id)
+    })
+
+    socket.on('change undercover status', data => {
+        const { gameId } = data
+        const game = lobby[gameId]
+        if (!gameExists(gameId, socket.id)) return; 
+
+        game.players[socket.id].isUndercover = !game.players[socket.id].isUndercover
+        sendGameToAllPlayers(gameId)
+        sendMessageToAllPlayers(gameId, "--CHANGED UNDERCOVER STATUS!--", socket.id)
     })
 });
 
