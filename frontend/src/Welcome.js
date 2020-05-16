@@ -101,13 +101,13 @@ class Welcome extends Component {
 
         let newGameInputs = joiningExisting === "false" ? (<>
             <div className="prompt">Team 1:</div>
-            <div class="form-check">
+            {/* <div class="form-check">
                 {colorRadioButtons(0)}
             </div>
             <div className="prompt">Team 2: (must be different)</div>
             <div class="form-check">
                 {colorRadioButtons(1)}
-            </div>
+            </div> */}
             <div className="prompt">Word Pack:</div>
             <div className="form-check">
                 {this.wordPackRadioButtons()}
