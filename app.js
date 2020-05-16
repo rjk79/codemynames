@@ -156,12 +156,12 @@ io.on('connection', (socket) => {
             game.players[socket.id].isUndercover = true
             game.players[socket.id].color = game[`color${Math.ceil(Math.random() * 2)}`] //randomize their color
             sendGameToAllPlayers(gameId)
-            sendMessageToAllPlayers(gameId, "--WENT UNDERCOVER!--their team affiliation was randomized", socket.id)
+            sendMessageToAllPlayers(gameId, "--WENT UNDERCOVER!--only they know their new team", socket.id)
         }
         else {
             game.players[socket.id].isUndercover = false
             sendGameToAllPlayers(gameId)
-            sendMessageToAllPlayers(gameId, "--HAS COME OUT FROM COVER!--", socket.id)
+            sendMessageToAllPlayers(gameId, "--HAS REVEALED THEIR COVER!--", socket.id)
         }
     })
 });

@@ -150,8 +150,8 @@ class Game extends React.Component {
 
             if (!currentUserObject.isUndercover && !currentUserObject.isSpymaster ) spyMasterButton = <button className="btn btn-primary" onClick={this.changeSpymasterStatus}>{!currentUserObject.isSpymaster ? "Become Spymaster" : "Stop Being Spymaster"} </button> 
             if (!currentUserObject.isUndercover) changeTeamButton = <button className="btn btn-primary" onClick={this.changeTeam}>Change Team</button>
-            undercoverButton = !currentUserObject.isSpymaster ? <button className="btn btn-primary" onClick={this.changeUndercoverStatus}>{!currentUserObject.isUndercover ? "Go Undercover" : "Stop Being Undercover"} </button> : null
-            undercoverLis = Object.values(game.players).filter(p => p.isUndercover).map((p, i) => (<li key={i}>{p.username} {currentUserObject.username === p.username ? "(" + p.color.toUpperCase() + " Team)" : null} </li>))
+            undercoverButton = !currentUserObject.isSpymaster ? <button className="btn btn-primary" onClick={this.changeUndercoverStatus}>{!currentUserObject.isUndercover ? "Go Undercover" : "Reveal Your Undercover"} </button> : null
+            undercoverLis = Object.values(game.players).filter(p => p.isUndercover).map((p, i) => (<li key={i}>{p.username} {currentUserObject.username === p.username ? "(" + p.color.toUpperCase() + " Team - don't tell!!)" : null} </li>))
         }
         return (
             <div className="App">                
