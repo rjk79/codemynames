@@ -115,6 +115,8 @@ io.on('connection', (socket) => {
         sendGameToAllPlayers(id)
         if (game.winner) {
             sendMessageToAllPlayers(id, "ended the game. " + game.winner.toUpperCase() + " Team" + " has won!!!", socket.id)
+            Object.values(game.players).forEach(p => p.isUndercover = false)
+            sendGameToAllPlayers(id)
         }
         if (game.shouldChangeTurn) changeTurn(id, socket.id)
     })

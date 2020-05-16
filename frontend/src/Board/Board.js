@@ -13,6 +13,7 @@ class Board extends Component {
         if (cards) {
             const currentUserObject = Object.values(game.players).filter(p => p.username === currentUser)[0]
             const isSpymaster = currentUserObject.isSpymaster
+            const isUndercover = currentUserObject.isUndercover
             const hasTurn = currentUserObject.color === game.currentTurnColor
             const isOver = game.winner
 
@@ -22,7 +23,7 @@ class Board extends Component {
                     const card = cards[5 * i + j]
                     let color = translateColor(card.color)
 
-                    const canClick = hasTurn && !card.isRevealed && !isSpymaster && !isOver
+                    const canClick = hasTurn && !card.isRevealed && !isSpymaster && !isUndercover && !isOver
 
                     let borderable = canClick ? "borderable" : ""
                     const clickEffect = canClick ? makeMove(5 * i + j) : null
