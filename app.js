@@ -151,10 +151,18 @@ io.on('connection', (socket) => {
         const { gameId } = data
         const game = lobby[gameId]
         if (!gameExists(gameId, socket.id)) return; 
-
-        game.players[socket.id].isUndercover = !game.players[socket.id].isUndercover
-        sendGameToAllPlayers(gameId)
-        sendMessageToAllPlayers(gameId, "--CHANGED UNDERCOVER STATUS!--", socket.id)
+        
+        if (!game.players[socket.id].isUndercover) {
+            game.players[socket.id].isUndercover = true
+            game.players[socket.id].color = game[`color${Math.ceil(Math.random() * 2)}`] //randomize their color
+            sendGameToAllPlayers(gameId)
+            sendMessageToAllPlayers(gameId, "--WENT UNDERCOVER!--their team affiliation was randomized", socket.id)
+        }
+        else {
+            game.players[socket.id].isUndercover = false
+            sendGameToAllPlayers(gameId)
+            sendMessageToAllPlayers(gameId, "--HAS COME OUT FROM COVER!--", socket.id)
+        }
     })
 });
 

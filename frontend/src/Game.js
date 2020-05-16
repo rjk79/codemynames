@@ -125,6 +125,7 @@ class Game extends React.Component {
         let turnTime
         let spyMasterButton 
         let undercoverButton
+        let changeTeamButton
         if (game) {
             messageLis = []
             messages.forEach((m, i) => {
@@ -137,7 +138,7 @@ class Game extends React.Component {
             currentUserObject = Object.values(game.players).filter(p => p.username === currentUser)[0]
             yourColor = game ? currentUserObject.color : null
             gameName = game ? game.id : null
-            changeTurnButton = game.currentTurnColor === yourColor ? <button className="btn btn-primary" onClick={this.changeTurn}>End Your Team's Turn</button> : null
+            if (!currentUserObject.isUndercover && game.currentTurnColor === yourColor) changeTurnButton = <button className="btn btn-primary" onClick={this.changeTurn}>End Your Team's Turn</button> 
             team1PlayerLis = this.teamPlayerLis(1)
             team2PlayerLis = this.teamPlayerLis(2)
             score = <div>
@@ -147,9 +148,10 @@ class Game extends React.Component {
             </div>
             if (timeShowing) turnTime = formatSeconds(game.turnTime);
 
-            spyMasterButton = !currentUserObject.isSpymaster ? <button className="btn btn-primary" onClick={this.changeSpymasterStatus}>{!currentUserObject.isSpymaster ? "Become Spymaster" : "Stop Being Spymaster"} </button> : null
+            if (!currentUserObject.isUndercover && !currentUserObject.isSpymaster ) spyMasterButton = <button className="btn btn-primary" onClick={this.changeSpymasterStatus}>{!currentUserObject.isSpymaster ? "Become Spymaster" : "Stop Being Spymaster"} </button> 
+            if (!currentUserObject.isUndercover) changeTeamButton = <button className="btn btn-primary" onClick={this.changeTeam}>Change Team</button>
             undercoverButton = !currentUserObject.isSpymaster ? <button className="btn btn-primary" onClick={this.changeUndercoverStatus}>{!currentUserObject.isUndercover ? "Go Undercover" : "Stop Being Undercover"} </button> : null
-            undercoverLis = Object.values(game.players).filter(p => p.isUndercover).map((p, i) => (<li key={i}>{p.username}</li>))
+            undercoverLis = Object.values(game.players).filter(p => p.isUndercover).map((p, i) => (<li key={i}>{p.username} {currentUserObject.username === p.username ? "(" + p.color.toUpperCase() + " Team)" : null} </li>))
         }
         return (
             <div className="App">                
@@ -187,7 +189,7 @@ class Game extends React.Component {
                         </div>
                         <div className="game-controls">
                             {/* <Link className="btn btn-primary" to="/">Return to Home Page</Link> */}
-                            <button className="btn btn-primary" onClick={this.changeTeam}>Change Team</button>
+                            {changeTeamButton}
                             {spyMasterButton}
                             <button className="btn btn-primary" onClick={this.setTimeShowing}>Show/Hide Timer</button>
                             {undercoverButton}
