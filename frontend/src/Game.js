@@ -120,7 +120,7 @@ class Game extends React.Component {
             messageLis = []
             messages.forEach((m, i) => {
                 const playerColor = Object.values(game.players).filter(p => p.username === m.name)[0].color
-                messageLis.push(<div key={i} ><strong style={{color: playerColor}}>{m.name}</strong>{": " + m.message}</div>)
+                messageLis.push(<div key={i} ><strong style={{color: translateColor(playerColor)}}>{m.name}</strong>{": " + m.message}</div>)
             })
             
             currentUserObject = Object.values(game.players).filter(p => p.username === currentUser)[0]
