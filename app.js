@@ -173,5 +173,5 @@ const interval = setInterval(() => {
         lobby[gameId].turnTime += 1
         sendGameToAllPlayers(gameId)
     })
-    if (!(Object.keys(lobby).length)) clearInterval(interval)
+    // if (!(Object.keys(lobby).length)) clearInterval(interval)
 }, 1000)
