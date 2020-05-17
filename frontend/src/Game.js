@@ -130,8 +130,8 @@ class Game extends React.Component {
             messageLis = []
             messages.forEach((m, i) => {
                 const sender = Object.values(game.players).filter(p => p.username === m.name)[0]
-                if (!sender) debugger
-                const playerColor = sender.color
+                let playerColor = "gray" 
+                if (sender) playerColor = sender.color //todo
                 messageLis.push(<div key={i} ><strong style={!sender.isUndercover ? {color: translateColor(playerColor)} : {}}>{m.name}</strong>{": " + m.message}</div>)
             })
             
