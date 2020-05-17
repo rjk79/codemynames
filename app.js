@@ -62,6 +62,16 @@ function gameExists(id, socketId) {
     }
 }
 
+function playerConnected(socketId, gameId) {
+    if (!(socketId in lobby[gameId].players )) {
+        io.to(socketId).emit('receive message', { message: "you timed out -- sorry!", name: "ADMIN" })
+        return false
+    }
+    else {
+        return true
+    }
+}
+
 io.on('connection', (socket) => {
     console.log('Client connected' + socket.id);
 
@@ -79,7 +89,7 @@ io.on('connection', (socket) => {
 
     socket.on('send message', data => { //client has sent a message. use socket instead of io. 
         const {message, gameId} = data
-        if (!gameExists(gameId, socket.id)) return; 
+        if (!gameExists(gameId, socket.id) || !playerConnected(socket.id, gameId)) return; 
         sendMessageToAllPlayers(gameId, message, socket.id)
         //send message to clients. use io instead of socket to emit to all other sockets
     })
@@ -95,7 +105,7 @@ io.on('connection', (socket) => {
 
     socket.on('reset game', gameId => {
         let game = lobby[gameId]
-        if (!gameExists(gameId, socket.id)) return; 
+        if (!gameExists(gameId, socket.id) || !playerConnected(socket.id, gameId)) return; 
 
         let currPlayers = game.players
         game = new Game(gameId, game.color1, game.color2, game.wordPack)
@@ -108,7 +118,7 @@ io.on('connection', (socket) => {
     socket.on('make move', data => {
         const {idx, id} = data
         const game = lobby[id]
-        if (!gameExists(id, socket.id)) return; 
+        if (!gameExists(id, socket.id) || !playerConnected(socket.id, id)) return; 
         
         game.makeMove(idx, socket.id)
         sendMessageToAllPlayers(id, game.mostRecentMove, socket.id)
@@ -124,7 +134,7 @@ io.on('connection', (socket) => {
     socket.on('change team', data => {
         const { gameId } = data
         const game = lobby[gameId]
-        if (!gameExists(gameId, socket.id)) return; 
+        if (!gameExists(gameId, socket.id) || !playerConnected(socket.id, gameId)) return; 
 
         game.changeTeam(socket.id)
         sendGameToAllPlayers(gameId)
@@ -133,7 +143,7 @@ io.on('connection', (socket) => {
 
     socket.on('opt to change turn', data => {
         const {gameId} = data
-        if (!gameExists(gameId, socket.id)) return; 
+        if (!gameExists(gameId, socket.id) || !playerConnected(socket.id, gameId)) return; 
         
         changeTurn(gameId, socket.id)
         sendMessageToAllPlayers(gameId, `ended the turn early`, socket.id)
@@ -142,7 +152,7 @@ io.on('connection', (socket) => {
     socket.on('change spymaster status', data => {
         const { gameId } = data
         const game = lobby[gameId]
-        if (!gameExists(gameId, socket.id)) return; 
+        if (!gameExists(gameId, socket.id) || !playerConnected(socket.id, gameId)) return; 
 
         game.players[socket.id].isSpymaster = !game.players[socket.id].isSpymaster
         sendGameToAllPlayers(gameId)
@@ -152,8 +162,8 @@ io.on('connection', (socket) => {
     socket.on('change undercover status', data => {
         const { gameId } = data
         const game = lobby[gameId]
-        if (!gameExists(gameId, socket.id)) return; 
-        
+        if (!gameExists(gameId, socket.id) || !playerConnected(socket.id, gameId)) return; 
+
         if (!game.players[socket.id].isUndercover) {
             game.players[socket.id].isUndercover = true
             game.players[socket.id].color = game[`color${Math.ceil(Math.random() * 2)}`] //randomize their color
