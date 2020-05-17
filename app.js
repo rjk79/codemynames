@@ -168,10 +168,10 @@ io.on('connection', (socket) => {
     })
 });
 
-const interval = setInterval(() => {
-    Object.keys(lobby).forEach(gameId => {
-        lobby[gameId].turnTime += 1
-        sendGameToAllPlayers(gameId)
-    })
-    // if (!(Object.keys(lobby).length)) clearInterval(interval)
-}, 1000)
+// const interval = setInterval(() => {
+//     Object.keys(lobby).forEach(gameId => {
+//         lobby[gameId].turnTime += 1
+//         sendGameToAllPlayers(gameId)
+//     })
+//     // if (!(Object.keys(lobby).length)) clearInterval(interval)
+// }, 1000)

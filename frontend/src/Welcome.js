@@ -109,7 +109,7 @@ class Welcome extends Component {
                 {colorRadioButtons(1)}
             </div>  */}
             <div className="prompt">Word Pack:</div>
-            <div className="form-check">
+            <div className="form-check word-pack-options">
                 {this.wordPackRadioButtons()}
             </div>
         </>) : null

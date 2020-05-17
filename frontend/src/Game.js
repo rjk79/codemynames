@@ -166,7 +166,7 @@ class Game extends React.Component {
                         {/* <div className="color-reminder on-white" style={game ? {color: translateColor(yourColor)} : {}}>You are on {yourColor && yourColor.toUpperCase()} Team</div> */}
                         <div className="color-reminder on-white">{score}</div>
                         <div className="color-reminder" style={game ? { background: translateColor(game.currentTurnColor) } : {}}>
-                            <div className="turn-time">{turnTime}</div>
+                            {/* <div className="turn-time">{turnTime}</div> */}
                             <div>{currentTeamColor}'s Turn </div>
                             {changeTurnButton}
                         </div>
@@ -193,7 +193,7 @@ class Game extends React.Component {
                             {/* <Link className="btn btn-primary" to="/">Return to Home Page</Link> */}
                             {changeTeamButton}
                             {spyMasterButton}
-                            <button className="btn btn-primary" onClick={this.setTimeShowing}>Show/Hide Timer</button>
+                            {/* <button className="btn btn-primary" onClick={this.setTimeShowing}>Show/Hide Timer</button> */}
                             {undercoverButton}
                         </div>
                     </div>
