@@ -126,6 +126,7 @@ class Game extends React.Component {
         let spyMasterButton 
         let undercoverButton
         let changeTeamButton
+        let currentTeamColor
         if (game) {
             messageLis = []
             messages.forEach((m, i) => {
@@ -152,8 +153,7 @@ class Game extends React.Component {
             if (!currentUserObject.isUndercover) changeTeamButton = <button className="btn btn-primary" onClick={this.changeTeam}>Change Team</button>
             undercoverButton = !currentUserObject.isSpymaster ? <button className="btn btn-primary" onClick={this.changeUndercoverStatus}>{!currentUserObject.isUndercover ? "Go Undercover" : "Reveal Your Cover"} </button> : null
             undercoverLis = Object.values(game.players).filter(p => p.isUndercover).map((p, i) => (<li key={i}>{p.username} {currentUserObject.username === p.username ? "(" + p.color.toUpperCase() + " Team - don't tell!!)" : null} </li>))
-
-            debugger
+            currentTeamColor = game.currentTurnColor.toUpperCase()
         }
         return (
             <div className="App">                
@@ -167,7 +167,7 @@ class Game extends React.Component {
                         <div className="color-reminder on-white">{score}</div>
                         <div className="color-reminder" style={game ? { background: translateColor(game.currentTurnColor) } : {}}>
                             <div className="turn-time">{turnTime}</div>
-                            <div>{game && game.currentTurnColor.toUpperCase()}'s Turn </div>
+                            <div>{currentTeamColor}'s Turn </div>
                             {changeTurnButton}
                         </div>
 
