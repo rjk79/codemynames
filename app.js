@@ -69,6 +69,7 @@ io.on('connection', (socket) => {
         const gamesJoined = Object.values(lobby).filter(g => Object.keys(g.players).includes(socket.id))
         if (gamesJoined.length) {
             game = gamesJoined[0]
+            sendGameToAllPlayers(game.id) // unnecessary?
             sendMessageToAllPlayers(game.id, "left the game.", socket.id)
             delete game.players[socket.id]
             sendGameToAllPlayers(game.id)
@@ -79,7 +80,7 @@ io.on('connection', (socket) => {
     socket.on('send message', data => { //client has sent a message. use socket instead of io. 
         const {message, id} = data
         if (!gameExists(id, socket.id)) return; 
-
+        sendGameToAllPlayers(game.id)
         sendMessageToAllPlayers(id, message, socket.id)
         //send message to clients. use io instead of socket to emit to all other sockets
     })
@@ -101,6 +102,7 @@ io.on('connection', (socket) => {
         game = new Game(gameId, game.color1, game.color2, game.wordPack)
         game.players = currPlayers
         lobby[gameId] = game
+        sendGameToAllPlayers(game.id)
         sendMessageToAllPlayers(gameId, "started a new game!", socket.id)
         sendGameToAllPlayers(gameId)
     })
@@ -111,6 +113,7 @@ io.on('connection', (socket) => {
         if (!gameExists(id, socket.id)) return; 
         
         game.makeMove(idx, socket.id)
+        sendGameToAllPlayers(game.id)
         sendMessageToAllPlayers(id, game.mostRecentMove, socket.id)
         sendGameToAllPlayers(id)
         if (game.winner) {
