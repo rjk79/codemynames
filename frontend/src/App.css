@@ -72,6 +72,10 @@
   width: 100%;
 }
 
+.messaging-controls input[type="text"] {
+  font-size: 20px;
+}
+
 .messages {
   display: flex;
   flex-direction: column;

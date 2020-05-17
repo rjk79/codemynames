@@ -69,12 +69,12 @@ io.on('connection', (socket) => {
         const gamesJoined = Object.values(lobby).filter(g => Object.keys(g.players).includes(socket.id))
         if (gamesJoined.length) {
             game = gamesJoined[0]
-            console.log("REGISTERING", game)
+            
             sendMessageToAllPlayers(game.id, "left the game.", socket.id)
             delete game.players[socket.id]
             sendGameToAllPlayers(game.id)
         }
-        console.log('Client disconnected', lobby)
+        
     });
 
     socket.on('send message', data => { //client has sent a message. use socket instead of io. 
@@ -158,7 +158,7 @@ io.on('connection', (socket) => {
             game.players[socket.id].isUndercover = true
             game.players[socket.id].color = game[`color${Math.ceil(Math.random() * 2)}`] //randomize their color
             sendGameToAllPlayers(gameId)
-            sendMessageToAllPlayers(gameId, "--WENT UNDERCOVER!--only they know their new team", socket.id)
+            sendMessageToAllPlayers(gameId, "--WENT UNDERCOVER!--their new team will be revealed later", socket.id)
         }
         else {
             game.players[socket.id].isUndercover = false
