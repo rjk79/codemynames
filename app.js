@@ -171,9 +171,9 @@ io.on('connection', (socket) => {
     })
 });
 
-setInterval(() => {
-    Object.keys(lobby).forEach(gameId => {
-        lobby[gameId].turnTime += 1
-        sendGameToAllPlayers(gameId)
-    })
-}, 1000)
+// setInterval(() => {
+//     Object.keys(lobby).forEach(gameId => {
+//         lobby[gameId].turnTime += 1
+//         sendGameToAllPlayers(gameId)
+//     })
+// }, 1000)
