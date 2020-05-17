@@ -52,7 +52,7 @@ class Welcome extends Component {
 
     setWordPack() {
         return e => {
-            this.setState({wordPack: e.target.value}, ()=>console.log(this.state))
+            this.setState({wordPack: e.target.value})
         }
     }
 
@@ -100,14 +100,14 @@ class Welcome extends Component {
         const {gameName, joiningExisting} = this.state
 
         let newGameInputs = joiningExisting === "false" ? (<>
-            <div className="prompt">Team 1:</div>
+            {/* <div className="prompt">Team 1:</div>
             <div class="form-check">
                 {colorRadioButtons(0)}
             </div>
             <div className="prompt">Team 2: (must be different)</div>
             <div class="form-check">
                 {colorRadioButtons(1)}
-            </div> 
+            </div>  */}
             <div className="prompt">Word Pack:</div>
             <div className="form-check">
                 {this.wordPackRadioButtons()}

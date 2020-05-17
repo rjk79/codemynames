@@ -36,7 +36,7 @@ class Game extends React.Component {
             })
         });
         this.socket.on("receive game", data => {
-            this.setState({ game: data }, () => console.log(this.state))
+            this.setState({ game: data })
         });
     }
 
@@ -54,7 +54,7 @@ class Game extends React.Component {
         const {id} = this.state.game
         const {message} = this.state
         e.preventDefault()
-        this.socket.emit('send message', {message, id})
+        this.socket.emit('send message', {message, gameId: id})
         this.setState({ message: "" })
     }
 
@@ -132,13 +132,13 @@ class Game extends React.Component {
             messages.forEach((m, i) => {
                 const sender = Object.values(game.players).filter(p => p.username === m.name)[0]
                 let playerColor = "gray" 
-                if (sender) playerColor = sender.color //todo
-                messageLis.push(<div key={i} ><strong style={!sender.isUndercover ? {color: translateColor(playerColor)} : {}}>{m.name}</strong>{": " + m.message}</div>)
+                if (sender && !sender.isUndercover) playerColor = translateColor(sender.color) //handles disconnected players
+                messageLis.push(<div key={i} ><strong style={{color: playerColor}}>{m.name}</strong>{": " + m.message}</div>)
             })
             
             currentUserObject = Object.values(game.players).filter(p => p.username === currentUser)[0]
-            yourColor = game ? currentUserObject.color : null
-            gameName = game ? game.id : null
+            yourColor = currentUserObject.color
+            gameName = game.id
             if (!currentUserObject.isUndercover && game.currentTurnColor === yourColor) changeTurnButton = <button className="btn btn-primary" onClick={this.changeTurn}>End Your Team's Turn</button> 
             team1PlayerLis = this.teamPlayerLis(1)
             team2PlayerLis = this.teamPlayerLis(2)

@@ -8,7 +8,6 @@ class Game {
         this.id = id
         this.cards = []
         this.players = {}      
-        this.messages = []
         this.currentTurnColor = color1
         this.turnTime = 0
         this.winner = null

@@ -56,7 +56,7 @@ function gameExists(id, socketId) {
         return true
     }
     else {
-        console.log(id, lobby)
+        console.log("cant find game", id, lobby)
         io.to(socketId).emit('receive message', {message: "game timed out -- sorry!", name: "ADMIN"})
         return false
     }
@@ -69,18 +69,18 @@ io.on('connection', (socket) => {
         const gamesJoined = Object.values(lobby).filter(g => Object.keys(g.players).includes(socket.id))
         if (gamesJoined.length) {
             game = gamesJoined[0]
+            console.log("REGISTERING", game)
             sendMessageToAllPlayers(game.id, "left the game.", socket.id)
             delete game.players[socket.id]
             sendGameToAllPlayers(game.id)
         }
-        console.log('Client disconnected')
+        console.log('Client disconnected', lobby)
     });
 
     socket.on('send message', data => { //client has sent a message. use socket instead of io. 
-        const {message, id} = data
-        if (!gameExists(id, socket.id)) return; 
-        sendGameToAllPlayers(game.id)
-        sendMessageToAllPlayers(id, message, socket.id)
+        const {message, gameId} = data
+        if (!gameExists(gameId, socket.id)) return; 
+        sendMessageToAllPlayers(gameId, message, socket.id)
         //send message to clients. use io instead of socket to emit to all other sockets
     })
 
@@ -168,9 +168,10 @@ io.on('connection', (socket) => {
     })
 });
 
-// setInterval(() => {
-//     Object.keys(lobby).forEach(gameId => {
-//         lobby[gameId].turnTime += 1
-//         sendGameToAllPlayers(gameId)
-//     })
-// }, 1000)
+const interval = setInterval(() => {
+    Object.keys(lobby).forEach(gameId => {
+        lobby[gameId].turnTime += 1
+        sendGameToAllPlayers(gameId)
+    })
+    if (!(Object.keys(lobby).length)) clearInterval(interval)
+}, 1000)
