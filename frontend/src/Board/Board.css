@@ -27,6 +27,12 @@ ul {
     position: relative;
     margin: 5px;
 }
+@media (max-width: 400px) {
+    .card {
+        letter-spacing: 0px;
+        font-size: 10px;
+    }
+}
 
 .card div {
     width: 100%;

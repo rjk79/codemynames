@@ -108,7 +108,8 @@ io.on('connection', (socket) => {
         if (!gameExists(gameId, socket.id) || !playerConnected(socket.id, gameId)) return; 
 
         let currPlayers = game.players
-        game = new Game(gameId, game.color1, game.color2, game.wordPack)
+        game = new Game(gameId, game.color2, game.color1, game.wordPack)
+        Object.values(currPlayers).forEach(p => {p.isSpymaster = false})
         game.players = currPlayers
         lobby[gameId] = game
         sendMessageToAllPlayers(gameId, "started a new game!", socket.id)
