@@ -58,9 +58,10 @@
   .main {
     flex-direction: column;
   }
-  .card-container {
-    padding-left: 0;
-  }
+}
+
+.card-container {
+  padding-left: 0;
 }
 
 .messaging-controls {

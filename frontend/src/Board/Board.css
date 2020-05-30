@@ -26,6 +26,7 @@ ul {
     align-items: center;
     position: relative;
     margin: 5px;
+    word-wrap: anywhere;
 }
 @media (max-width: 400px) {
     .card {
