@@ -100,6 +100,7 @@ class Game extends React.Component {
 
     teamPlayerLis (num) {
         const {game} = this.state
+        console.log(game)
         return Object.values(game.players).filter(p => p.color === (game['color' + num.toString()]) && !p.isUndercover).map((p, i) => {
             const spymasterLabel = p.isSpymaster ? <i className="fas fa-user-secret"></i> : null
             return (

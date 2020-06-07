@@ -490,7 +490,7 @@ module.exports = WORDS = {
     "Shell",
     "Peanut",
     "House",
-    "Univerity",
+    "University",
     "Camp",
     "Mohawk",
     "Anthem",
