@@ -56,7 +56,7 @@ class Board extends Component {
                     rowItems.push(
                         <div key={j} className={"card " + borderable} onClick={clickEffect} style={style}>
                             {/* <div> */}
-                                {card.word}{card.color === 'black' && (isSpymaster || card.isRevealed)? <i className="fas fa-user-ninja"></i> : null}
+                                {card.word}{card.color === 'black' && (isSpymaster || isOver)? <i className="fas fa-user-ninja"></i> : null}
                             {/* </div> */}
                         </div>)
                 }
