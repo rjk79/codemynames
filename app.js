@@ -89,6 +89,8 @@ io.on('connection', (socket) => {
 
     socket.on('send message', data => { //client has sent a message. use socket instead of io. 
         const {message, gameId} = data
+
+        if (message === 'ping') {return;}
         if (!gameExists(gameId, socket.id) || !playerConnected(socket.id, gameId)) return; 
         sendMessageToAllPlayers(gameId, message, socket.id)
         //send message to clients. use io instead of socket to emit to all other sockets
