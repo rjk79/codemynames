@@ -14,6 +14,8 @@ class Game extends React.Component {
             message: "",
             game: null,
             timeShowing: true,
+            hintRequest1: "",
+            hintRequest2: "",
         }
         this.handleSetMessage = this.handleSetMessage.bind(this)
         this.sendMessage = this.sendMessage.bind(this);
@@ -26,6 +28,7 @@ class Game extends React.Component {
         this.teamPlayerLis = this.teamPlayerLis.bind(this);
         this.numberRevealedIn = this.numberRevealedIn.bind(this);
         this.setTimeShowing = this.setTimeShowing.bind(this);
+        this.findHint = this.findHint.bind(this);
     }
 
     componentDidMount() {
@@ -104,6 +107,19 @@ class Game extends React.Component {
 
     setTimeShowing() {
         this.setState({timeShowing: !this.state.timeShowing})
+    }
+
+    findHint() {
+        const self = this
+        const request = new XMLHttpRequest()
+        const proxyurl = "https://cors-anywhere.herokuapp.com/"
+
+        request.open('GET', proxyurl + `https://api.datamuse.com/words?rel_jjb=${this.state.hintRequest1}&topics=${this.state.hintRequest2}`, true)
+        request.onload = function () {
+            self.setState({hintResponse: JSON.parse(this.response)})
+        }
+        
+        request.send()
     }
 
     teamPlayerLis (num) {
@@ -203,6 +219,17 @@ class Game extends React.Component {
                             {spyMasterButton}
                             {/* <button className="btn btn-primary" onClick={this.setTimeShowing}>Show/Hide Timer</button> */}
                             {undercoverButton}
+                        </div>
+                        <div>
+                            <div>Hint Generator</div>    
+                            <input onChange={e => this.setState({hintRequest1: e.target.value})} 
+                                value={this.state.hintRequest1}/> <br/>
+                            <input onChange={e => this.setState({hintRequest2: e.target.value})} 
+                                value={this.state.hintRequest2} /> <br/>
+                            <button onClick={this.findHint}>Find Hint</button>
+                            <div>
+                                {this.state.hintResponse ? "Related Words:" + this.state.hintResponse.map(r => r.word + "\n") : null}
+                            </div>
                         </div>
                     </div>
                     <div className="messaging-controls">

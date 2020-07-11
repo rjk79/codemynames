@@ -26,7 +26,7 @@ export function translateColor(color) {
             res = "rgb(15, 15, 15)"
             break
         case "white":
-            res = "rgb(235, 235, 235)"
+            res = "rgb(200, 200, 200)"
             break
         default:
     }
