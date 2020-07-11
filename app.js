@@ -92,6 +92,7 @@ io.on('connection', (socket) => {
         if (!gameExists(gameId, socket.id) || !playerConnected(socket.id, gameId)) return; 
         sendMessageToAllPlayers(gameId, message, socket.id)
         //send message to clients. use io instead of socket to emit to all other sockets
+        console.log('made change')
     })
 
     socket.on('join lobby', ({gameName, currentUser, colors, wordPack}) => {
@@ -176,6 +177,11 @@ io.on('connection', (socket) => {
             sendGameToAllPlayers(gameId)
             sendMessageToAllPlayers(gameId, "--HAS REVEALED THEIR COVER!--", socket.id)
         }
+    })
+
+    socket.on('ping', data => {
+        const a = 1
+        console.log('heard ping')
     })
 });
 

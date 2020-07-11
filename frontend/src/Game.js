@@ -29,6 +29,7 @@ class Game extends React.Component {
     }
 
     componentDidMount() {
+        const self = this;
         this.socket.on("receive message", data => {
             this.setState({ messages: this.state.messages.concat([data]) }, () => {
                 let messages = document.getElementsByClassName("messages")[0]
@@ -38,6 +39,11 @@ class Game extends React.Component {
         this.socket.on("receive game", data => {
             this.setState({ game: data })
         });
+
+        this.pingInterval = setInterval(() => {
+            console.log("emitting")
+            this.socket.emit('send message', { message: 'ping', gameId: 0})
+        }, 7000)
     }
 
     numberRevealedIn(color) {
@@ -48,6 +54,8 @@ class Game extends React.Component {
     componentWillUnmount() {
         this.socket.off('receive message')
         this.socket.off('receive game')
+
+        clearInterval(this.pingInterval)
     }
 
     sendMessage(e) {
