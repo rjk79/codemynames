@@ -221,11 +221,13 @@ class Game extends React.Component {
                             {undercoverButton}
                         </div>
                         <div>
-                            <div>Hint Generator</div>    
+                            <div>Hint Generator (New!)</div>    
                             <input onChange={e => this.setState({hintRequest1: e.target.value})} 
-                                value={this.state.hintRequest1}/> <br/>
+                                value={this.state.hintRequest1}
+                                placeholder="word 1"/> <br/>
                             <input onChange={e => this.setState({hintRequest2: e.target.value})} 
-                                value={this.state.hintRequest2} /> <br/>
+                                value={this.state.hintRequest2} 
+                                placeholder="word 2"/> <br/>
                             <button onClick={this.findHint}>Find Hint</button>
                             <div>
                                 {this.state.hintResponse ? "Related Words:" + this.state.hintResponse.map(r => r.word + "\n") : null}
