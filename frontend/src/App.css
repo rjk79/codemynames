@@ -146,3 +146,18 @@
 .fa-user-secret {
   font-size: 18px;
 }
+
+.related-words > * {
+  margin: 5px;
+}
+
+.hint-finder {
+  border: 2px solid black;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+.hint-finder > * {
+  margin: 5px;
+  font-size: 16px;
+}

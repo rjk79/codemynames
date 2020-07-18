@@ -220,20 +220,7 @@ class Game extends React.Component {
                             {/* <button className="btn btn-primary" onClick={this.setTimeShowing}>Show/Hide Timer</button> */}
                             {undercoverButton}
                         </div>
-                        <div>
-                            <div>Hint Generator (New!)</div>    
-                            <input onChange={e => this.setState({hintRequest1: e.target.value})} 
-                                value={this.state.hintRequest1}
-                                placeholder="word 1"/> <br/>
-                            <input onChange={e => this.setState({hintRequest2: e.target.value})} 
-                                value={this.state.hintRequest2} 
-                                placeholder="word 2"/> <br/>
-                            <button onClick={this.findHint}>Find Hint</button>
-                            <div>
-                                {this.state.hintResponse ? "Related Words:" + this.state.hintResponse.map(r => r.word + "\n") : null}
-                            </div>
                         </div>
-                    </div>
                     <div className="messaging-controls">
                         <div className="messages">
                             <div className="title">Chat</div>

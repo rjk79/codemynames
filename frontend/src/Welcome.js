@@ -67,7 +67,7 @@ class Welcome extends Component {
     }
 
     wordPackRadioButtons() {
-        const labels = ["(Original)", "(Expansion)", "(Rock Climbing)", "(Filtered Original + Expansion)"]
+        const labels = ["(Original)", "(Expansion)", "(Rock Climbing)", "(Filtered Original + Expansion)", "Custom Words"]
         return ["1", "2", "3", "4"].map((n, i) => (
             <>
                 <label key={i}>
