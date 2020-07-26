@@ -97,9 +97,9 @@ io.on('connection', (socket) => {
         console.log('made change')
     })
 
-    socket.on('join lobby', ({gameName, currentUser, colors, wordPack}) => {
+    socket.on('join lobby', ({gameName, currentUser, colors, wordPack, customWords}) => {
         const gameId = gameName
-        if (!(gameId in lobby)) lobby[gameId] = new Game(gameId, colors[0], colors[1], wordPack);
+        if (!(gameId in lobby)) lobby[gameId] = new Game(gameId, colors[0], colors[1], wordPack, customWords);
         const game = lobby[gameId]
         game.addPlayer(socket.id, currentUser)
         sendGameToAllPlayers(gameId)
@@ -111,7 +111,7 @@ io.on('connection', (socket) => {
         if (!gameExists(gameId, socket.id) || !playerConnected(socket.id, gameId)) return; 
 
         let currPlayers = game.players
-        game = new Game(gameId, game.color2, game.color1, game.wordPack)
+        game = new Game(gameId, game.color2, game.color1, game.wordPack, game.customWords)
         Object.values(currPlayers).forEach(p => {p.isSpymaster = false})
         game.players = currPlayers
         lobby[gameId] = game

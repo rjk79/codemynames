@@ -4,7 +4,7 @@ const Card = require("./Card")
 const Player = require("./Player")
 
 class Game {
-    constructor(id, color1, color2, wordPack) {
+    constructor(id, color1, color2, wordPack, customWords) {
         this.id = id
         this.cards = []
         this.players = {}      
@@ -16,6 +16,7 @@ class Game {
         this.color1 = color1
         this.color2 = color2
         this.wordPack = wordPack
+        this.customWords = customWords
 
         const colors = [color1, color2, 'white', 'black']
         const amounts = [9, 8, 7, 1]
@@ -46,7 +47,12 @@ class Game {
 
     makeCards(color, amount) {
         const cards = this.cards
-        const words = WORDS[this.wordPack]
+        let words;
+        if (this.wordPack !== '5') {
+            words = WORDS[this.wordPack]
+        } else {
+            words = this.customWords
+        }
         let res = []
         for (let i = 0; i < amount; i++) {
             let randomIdx = Math.floor(Math.random() * words.length) //400 words. highest random # is ~399.999 => 399

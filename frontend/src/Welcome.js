@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import './Welcome.css'
 import { withRouter} from 'react-router-dom';
+import {refineWords} from './utils';
 
 class Welcome extends Component {
     constructor(props) {
@@ -9,7 +10,8 @@ class Welcome extends Component {
             joiningExisting: "true",
             gameName: "",
             colors: ["red", "blue"],
-            wordPack: "1"
+            wordPack: "1",
+            customWords: ""
         }
 
         this.handleSetGameName = this.handleSetGameName.bind(this);
@@ -33,11 +35,15 @@ class Welcome extends Component {
         const {currentUser, socket} = this.props
         e.preventDefault()
         if (joiningExisting === "true") {
-            socket.emit('join lobby', { gameName, currentUser, colors, wordPack })
+            socket.emit('join lobby', { gameName, currentUser, colors, wordPack, customWords: [''] })
         }
         else {
-            if (!colors[0] || !colors[1] || (colors[0] === colors[1]) || !currentUser.length || !gameName.length) return;
-            socket.emit('join lobby', { gameName, currentUser, colors, wordPack })
+            const {customWords, wordPack} = this.state
+            const refinedWords = refineWords(customWords)
+            if (!colors[0] || !colors[1] || (colors[0] === colors[1])
+                || !currentUser.length || !gameName.length
+                || (wordPack === '5' && refinedWords.length < 25)) return;
+            socket.emit('join lobby', { gameName, currentUser, colors, wordPack, customWords: refinedWords })
         }
         this.props.history.push("/game")
     }
@@ -67,12 +73,14 @@ class Welcome extends Component {
     }
 
     wordPackRadioButtons() {
-        const labels = ["(Original)", "(Expansion)", "(Rock Climbing)", "(Filtered Original + Expansion)", "Custom Words"]
-        return ["1", "2", "3", "4"].map((n, i) => (
+        const labels = ["(Original)", "(Expansion)", "(Rock Climbing)", 
+            "(Filtered Original + Expansion)", "Custom Words"]
+
+        return ["1", "2", "3", "4", "5"].map((n, i) => (
             <>
                 <label key={i}>
                     <input type="radio" className="form-check-input" value={n} checked={this.state.wordPack === n} onChange={this.setWordPack()} />
-                    Pack {n} {labels[parseInt(n)-1]}
+                    {n !== "5" ? `Pack ${n}` : null} {labels[parseInt(n)-1]}
                 </label>
             </>
         ))
@@ -99,20 +107,30 @@ class Welcome extends Component {
         const {props, colorRadioButtons, handleSetGameName, handleSubmitCurrentUser, joiningExistingRadioButtons} = this
         const {gameName, joiningExisting} = this.state
 
-        let newGameInputs = joiningExisting === "false" ? (<>
-            {/* <div className="prompt">Team 1:</div>
-            <div class="form-check">
-                {colorRadioButtons(0)}
-            </div>
-            <div className="prompt">Team 2: (must be different)</div>
-            <div class="form-check">
-                {colorRadioButtons(1)}
-            </div>  */}
-            <div className="prompt">Word Pack:</div>
-            <div className="form-check word-pack-options">
-                {this.wordPackRadioButtons()}
-            </div>
-        </>) : null
+        let newGameInputs;
+        if (joiningExisting === "false") {
+            const customWordInput = this.state.wordPack === "5" ? 
+                (<textarea 
+                    value={this.state.s} 
+                    onChange={(e) => this.setState({customWords: e.target.value})}
+                    placeholder={`Enter at least 25 words \n - separate words only with spaces (' ') \n - capitalization doesn't matter`} />)
+                : null;
+            newGameInputs = (<>
+                {/* <div className="prompt">Team 1:</div>
+                <div class="form-check">
+                    {colorRadioButtons(0)}
+                </div>
+                <div className="prompt">Team 2: (must be different)</div>
+                <div class="form-check">
+                    {colorRadioButtons(1)}
+                </div>  */}
+                <div className="prompt">Word Pack:</div>
+                <div className="form-check word-pack-options">
+                    {this.wordPackRadioButtons()}
+                    {customWordInput}
+                </div>
+            </>)
+        }
 
         return (
             <div className="welcome">
@@ -132,7 +150,11 @@ class Welcome extends Component {
 
                     <input className="btn btn-primary" type="submit" value="Submit" />
                 </form>
-                <div className="credits">Made by the Robby</div>
+                <div className="credits">
+                    <a className="social-link" href="https://github.com/rjk79" target="_blank" rel="noopener noreferrer">
+                        <img className="icon" src={require("./assets/images/github.png")} alt="github" />
+                    </a>
+                </div>
             </div>
         );
     }

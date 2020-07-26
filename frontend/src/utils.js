@@ -38,3 +38,17 @@ export function formatSeconds(sec) {
     if (sec % 60 < 10) resSeconds = "0" + resSeconds
     return `${ Math.floor(sec / 60) }:` + resSeconds
 }
+
+export function refineWords(customWords) {
+    const netChars = []
+    customWords.split('').forEach((char, idx) => {
+        let valid;
+        if (char === ' '
+            && (!(idx > 0 && customWords[idx - 1] === ' '))) {
+            netChars.push(char)
+        } else if (char.match(/[A-Za-z]/)) {
+            netChars.push(char)
+        }
+    })
+    return netChars.join('').split(' ')
+}
