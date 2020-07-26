@@ -42,8 +42,8 @@ export function formatSeconds(sec) {
 export function refineWords(customWords) {
     const netChars = []
     customWords.split('').forEach((char, idx) => {
-        let valid;
         if (char === ' '
+        // previous letter can't be a space
             && (!(idx > 0 && customWords[idx - 1] === ' '))) {
             netChars.push(char)
         } else if (char.match(/[A-Za-z]/)) {

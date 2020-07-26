@@ -113,7 +113,7 @@ class Welcome extends Component {
                 (<textarea 
                     value={this.state.s} 
                     onChange={(e) => this.setState({customWords: e.target.value})}
-                    placeholder={`Enter at least 25 words \n - separate words only with spaces (' ') \n - capitalization doesn't matter`} />)
+                    placeholder={`Enter at least 25 words \n- words must be separated by at least one space (' ') \n- it's recommended to only use nouns \n- no time? simply copy+paste a paragraph here`} />)
                 : null;
             newGameInputs = (<>
                 {/* <div className="prompt">Team 1:</div>
