@@ -42,8 +42,8 @@ export function formatSeconds(sec) {
 export function refineWords(customWords) {
     const netChars = []
     customWords.split('').forEach((char, idx) => {
-        if (char === ' '
         // previous letter can't be a space
+        if (char === ' '
             && (!(idx > 0 && customWords[idx - 1] === ' '))) {
             netChars.push(char)
         } else if (char.match(/[A-Za-z]/)) {
@@ -51,4 +51,14 @@ export function refineWords(customWords) {
         }
     })
     return netChars.join('').split(' ')
+}
+
+export function unique(items) {
+    const uniqueItems = []
+    items.forEach((item) => {
+        if (!uniqueItems.includes(item)) {
+            uniqueItems.push(item)
+        }
+    })
+    return uniqueItems
 }

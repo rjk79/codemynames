@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './Welcome.css'
 import { withRouter} from 'react-router-dom';
-import {refineWords} from './utils';
+import {refineWords, unique} from './utils';
 
 class Welcome extends Component {
     constructor(props) {
@@ -42,7 +42,7 @@ class Welcome extends Component {
             const refinedWords = refineWords(customWords)
             if (!colors[0] || !colors[1] || (colors[0] === colors[1])
                 || !currentUser.length || !gameName.length
-                || (wordPack === '5' && refinedWords.length < 25)) return;
+                || (wordPack === '5' && unique(refinedWords).length < 25)) return;
             socket.emit('join lobby', { gameName, currentUser, colors, wordPack, customWords: refinedWords })
         }
         this.props.history.push("/game")
@@ -113,7 +113,7 @@ class Welcome extends Component {
                 (<textarea 
                     value={this.state.s} 
                     onChange={(e) => this.setState({customWords: e.target.value})}
-                    placeholder={`Enter at least 25 words \n- words must be separated by at least one space (' ') \n- it's recommended to only use nouns \n- no time? simply copy+paste a paragraph here`} />)
+                    placeholder={`Enter at least 25 words \n- they must be unique AND separated by at least one space \n- it's recommended to only use nouns`} />)
                 : null;
             newGameInputs = (<>
                 {/* <div className="prompt">Team 1:</div>
