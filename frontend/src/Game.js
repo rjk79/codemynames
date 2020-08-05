@@ -166,11 +166,13 @@ class Game extends React.Component {
             if (!currentUserObject.isUndercover && game.currentTurnColor === yourColor) changeTurnButton = <button className="btn btn-primary" onClick={this.changeTurn}>End Your Team's Turn</button> 
             team1PlayerLis = this.teamPlayerLis(1)
             team2PlayerLis = this.teamPlayerLis(2)
-            score = <div>
-                <div style={{color: translateColor(game.color1)}}>{9 - numberRevealedIn(game.color1)}</div> 
-                -
-                <div style={{color: translateColor(game.color2)}}>{8 - numberRevealedIn(game.color2)}</div>
-            </div>
+            score = (
+                <div className="score">
+                    <div style={{color: translateColor(game.color1)}}>{9 - numberRevealedIn(game.color1)}</div> 
+                    -
+                    <div style={{color: translateColor(game.color2)}}>{8 - numberRevealedIn(game.color2)}</div>
+                </div>
+            )
             if (timeShowing) turnTime = formatSeconds(game.turnTime);
 
             if (!currentUserObject.isUndercover ) spyMasterButton = <button className="btn btn-primary" onClick={this.changeSpymasterStatus}>{!currentUserObject.isSpymaster ? "Become Spymaster" : "Stop Being Spymaster"} </button> 
@@ -188,10 +190,11 @@ class Game extends React.Component {
                             <div>Your Username: {currentUser}</div>
                         </div>
                         {/* <div className="color-reminder on-white" style={game ? {color: translateColor(yourColor)} : {}}>You are on {yourColor && yourColor.toUpperCase()} Team</div> */}
-                        <div className="color-reminder on-white">{score}</div>
+
                         <div className="color-reminder" style={game ? { background: translateColor(game.currentTurnColor) } : {}}>
                             {/* <div className="turn-time">{turnTime}</div> */}
-                            <div>{currentTeamColor}'s Turn </div>
+                            {score}
+                            <div className="turn-color">{currentTeamColor}'s Turn </div>
                             {changeTurnButton}
                         </div>
 
