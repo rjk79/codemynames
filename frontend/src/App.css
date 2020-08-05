@@ -109,6 +109,8 @@
   border-radius: 2px;
   padding: 2px;
   align-items: center;
+  justify-content: center;
+  position: relative;
 }
 
 .color-reminder .turn-color {
@@ -119,6 +121,8 @@
 }
 
 .score {
+  position: absolute;
+  left: 20px;
   display: flex;
   justify-content: space-between;
   background-color: white;
@@ -128,6 +132,11 @@
 
 .turn-time {
   width: 50px !important;;
+}
+
+.btn.end-turn {
+  position: absolute;
+  right: 0;
 }
 
 .game-controls {

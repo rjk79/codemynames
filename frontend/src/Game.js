@@ -163,7 +163,13 @@ class Game extends React.Component {
             currentUserObject = Object.values(game.players).filter(p => p.username === currentUser)[0]
             yourColor = currentUserObject.color
             gameName = game.id
-            if (!currentUserObject.isUndercover && game.currentTurnColor === yourColor) changeTurnButton = <button className="btn btn-primary" onClick={this.changeTurn}>End Your Team's Turn</button> 
+            if (!currentUserObject.isUndercover && game.currentTurnColor === yourColor){
+                changeTurnButton = (
+                    <button className="btn btn-primary end-turn" onClick={this.changeTurn}>
+                        End Your Team's Turn
+                    </button>
+                )
+            }
             team1PlayerLis = this.teamPlayerLis(1)
             team2PlayerLis = this.teamPlayerLis(2)
             score = (
