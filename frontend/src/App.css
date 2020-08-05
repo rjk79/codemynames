@@ -109,11 +109,10 @@
   border-radius: 2px;
   padding: 2px;
   align-items: center;
-  justify-content: center;
 }
 
 .color-reminder .turn-color {
-  width: 100%;
+  min-width: 65%;
   height: 33px;
   display: flex;
   justify-content: center;
