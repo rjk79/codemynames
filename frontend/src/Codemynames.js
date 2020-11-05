@@ -1,6 +1,6 @@
 import React from "react";
 import io from "socket.io-client";
-import './App.css'
+import './App.scss'
 import Game from './Game'
 import Welcome from './Welcome'
 import { Switch } from 'react-router-dom';

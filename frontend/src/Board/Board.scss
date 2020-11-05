@@ -1,3 +1,5 @@
+@import '../constants.scss';
+
 ul {
     height: 57%;
     width: 100%;
@@ -43,41 +45,44 @@ ul {
     align-items: center;
 }
 
-.borderable::before, .borderable::after {
-    position: absolute;
-    content: "";
-    border-radius: 5px;
-}
+.borderable {
+    &::before,
+    &::after {
+        position: absolute;
+        content: "";
+        border-radius: 5px;
+    }
 
-.borderable::after {
-    width: 0px;
-    height: 100%;
-    border-top: 3px solid rebeccapurple;
-    border-bottom: 3px solid rebeccapurple;
-    transition: width .3s;
-} 
+    &::after {
+        width: 0px;
+        height: 100%;
+        border-top: 3px solid rebeccapurple;
+        border-bottom: 3px solid rebeccapurple;
+        transition: width .3s;
+    } 
 
-.borderable::before {
-    width: 100%;
-    height: 0px;
-    border-left: 3px solid rebeccapurple;
-    border-right: 3px solid rebeccapurple;
-    transition: height .3s;
-}
+    &::before {
+        width: 100%;
+        height: 0px;
+        border-left: 3px solid rebeccapurple;
+        border-right: 3px solid rebeccapurple;
+        transition: height .3s;
+    }
 
-.borderable:hover::before {
-    height: 100%;
-    transition: height .3s;
+    &:hover::before {
+        height: 100%;
+        transition: height .3s;
+    }
+
+    &:hover {
+        cursor: pointer;
+        animation: flashing 1s ease-in-out infinite;
+    }
 }
 
 .card:hover::after {
     width: 100%;
     transition: width .3s;
-}
-
-.borderable:hover {
-    cursor: pointer;
-    animation: flashing 1s ease-in-out infinite;
 }
 
 .fa-user-ninja {

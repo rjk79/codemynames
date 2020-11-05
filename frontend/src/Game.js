@@ -1,9 +1,10 @@
 import Board from './Board/Board'
 import React from "react";
 // import io from "socket.io-client";
-import './App.css'
+import './App.scss'
 import { translateColor, formatSeconds } from './utils'
-import {Link} from 'react-router-dom'
+import "emoji-mart/css/emoji-mart.css";
+import { Picker, Emoji } from "emoji-mart";
 
 class Game extends React.Component {
     constructor(props) {
@@ -16,6 +17,7 @@ class Game extends React.Component {
             timeShowing: true,
             hintRequest1: "",
             hintRequest2: "",
+            showEmojiPicker: false,
         }
         this.handleSetMessage = this.handleSetMessage.bind(this)
         this.sendMessage = this.sendMessage.bind(this);
@@ -72,6 +74,13 @@ class Game extends React.Component {
     handleSetMessage(e) {
         this.setState({ message: e.target.value })
     }
+
+    addEmoji(e) {
+        const emoji = e.native;
+        this.setState({
+            message: this.state.message + emoji
+        });
+    };
 
     resetGame() {
         const {id} = this.state.game
@@ -137,20 +146,8 @@ class Game extends React.Component {
         const { message, messages, game, timeShowing } = this.state
         const { currentUser } = this.props
 
-        let messageLis 
-        let currentUserObject
-        let yourColor
-        let gameName
-        let changeTurnButton
-        let team1PlayerLis
-        let team2PlayerLis
-        let undercoverLis
-        let score
-        let turnTime
-        let spyMasterButton 
-        let undercoverButton
-        let changeTeamButton
-        let currentTeamColor
+        let messageLis, currentUserObject, yourColor, gameName, changeTurnButton, team1PlayerLis, team2PlayerLis, undercoverLis,
+            score, turnTime, spyMasterButton , undercoverButton, changeTeamButton, currentTeamColor
         if (game) {
             messageLis = []
             messages.forEach((m, i) => {
@@ -187,6 +184,13 @@ class Game extends React.Component {
             undercoverLis = Object.values(game.players).filter(p => p.isUndercover).map((p, i) => (<li key={i}>{p.username} {currentUserObject.username === p.username ? "(" + p.color.toUpperCase() + " Team - shhh!)" : null} </li>))
             currentTeamColor = game.currentTurnColor.toUpperCase()
         }
+
+        const emojiPicker = this.state.showEmojiPicker ? (
+            <div className="emoji-dropdown" onClick={(e) => e.stopPropagation()}>
+                <Picker onSelect={this.addEmoji.bind(this)} />
+            </div>
+        ) : null;
+
         return (
             <div className="App">                
                 <div className="main">
@@ -236,6 +240,22 @@ class Game extends React.Component {
                             {messageLis}
                         </div>
                         <form onSubmit={sendMessage}>
+                            <span className="emoji-dropdown-container" 
+                                onClick={() => this.setState({showEmojiPicker: !this.state.showEmojiPicker})}>
+                                <div className="label">
+                                    <Emoji emoji={{
+                                        colons: ":grin:",
+                                        emoticons: [],
+                                        id: "grin",
+                                        name: "Grinning Face with Smiling Eyes",
+                                        native: "😁",
+                                        short_names: ["grin"],
+                                        skin: null,
+                                        unified: "1f601",
+                                    }} size={25} />
+                                </div>
+                                {emojiPicker}
+                            </span>
                             <input type="text" onChange={handleSetMessage} value={message} placeholder="Message"/>
                             <input type="submit" value="Send Message" className="btn btn-primary send" />
                         </form>

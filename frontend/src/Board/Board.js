@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Board.css'
+import './Board.scss'
 import { translateColor } from '../utils'
 
 class Board extends Component {
