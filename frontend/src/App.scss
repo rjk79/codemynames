@@ -1,3 +1,5 @@
+$gray1: rgb(60, 60, 70);
+
 .App {
   padding: 5px;
 }
@@ -71,15 +73,16 @@
   height: 100vh;
   border: 1px solid black;
   border-radius: 5px;
+
+  input {
+    width: 100%;
+
+    &[type="text"] {
+      font-size: 15px;
+    }
+  }
 }
 
-.messaging-controls input {
-  width: 100%;
-}
-
-.messaging-controls input[type="text"] {
-  font-size: 20px;
-}
 
 .messages {
   display: flex;
@@ -89,8 +92,13 @@
   height: 86vh;
   overflow-y: scroll;
   overflow-wrap: break-word;
-  width: 20vw;
+  width: 25vw;
   padding: 5px;
+  font-size: 16px;
+
+  .message {
+    padding: 5px 0;
+  }
 }
 
 .send {
@@ -111,13 +119,13 @@
   align-items: center;
   justify-content: center;
   position: relative;
-}
 
-.color-reminder .turn-color {
-  min-width: 65%;
-  height: 33px;
-  display: flex;
-  justify-content: center;
+  .turn-color {
+    min-width: 65%;
+    height: 33px;
+    display: flex;
+    justify-content: center;
+  }
 }
 
 .score {
@@ -147,17 +155,18 @@
 .team-lists {
   display: flex;
   justify-content: center;
+
+  .team-list {
+    font-weight: 600;
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+    padding: 10px;
+    border-radius: 2px;
+    font-size: 18px;
+  }
 }
 
-.team-list {
-  font-weight: 600;
-  display: flex;
-  flex-direction: column;
-  margin: 5px;
-  padding: 10px;
-  border-radius: 2px;
-  font-size: 18px;
-}
 
 .fa-user-secret {
   font-size: 18px;
@@ -171,24 +180,32 @@
   border: 2px solid black;
   border-radius: 5px;
   margin: 5px;
-}
 
-.hint-finder > * {
-  margin: 5px;
-  font-size: 16px;
-}
-
-.emoji-dropdown-container {
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-
-  .label {
-    cursor: pointer;
+  > * {
+    margin: 5px;
+    font-size: 16px;
   }
+}
 
-  .emoji-dropdown {
-    position: absolute;
-    bottom: 30px;
+.inputs {
+  display: flex;
+
+  .emoji-dropdown-container {
+    position: relative;
+    display: flex;
+    justify-content: flex-end;
+
+    .label {
+      cursor: pointer;
+
+      &.focus {
+        background: $gray1;
+      }
+    }
+
+    .emoji-dropdown {
+      position: absolute;
+      bottom: 33px;
+    }
   }
 }

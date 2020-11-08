@@ -7,7 +7,7 @@ class Game {
     constructor(id, color1, color2, wordPack, customWords) {
         this.id = id
         this.cards = []
-        this.players = {}      
+        this.players = {}
         this.currentTurnColor = color1
         this.turnTime = 0
         this.winner = null
@@ -24,7 +24,7 @@ class Game {
             const newCards = this.makeCards(colors[i], amounts[i])
             this.cards = this.cards.concat(newCards)
         }
-        
+
         this.cards = this.shuffleCards(this.cards)
     }
 
@@ -82,25 +82,23 @@ class Game {
     }
 
     setMostRecentMove(player, card) {
-        if (player.color === card.color) {
-            this.mostRecentMove = `found a fellow spy! (${card.word.toUpperCase()})`
-        }
-        else if (card.color === 'white') {
-            this.mostRecentMove = `found a bystander. (${card.word.toUpperCase()})`
-        }
-        else if (card.color === 'black') {
-            this.mostRecentMove = `found the assassin!!! (${card.word.toUpperCase()})`
-        }
-        else {
-            this.mostRecentMove = `found an enemy spy! (${card.word.toUpperCase()})`
-        }
+        let mostRecentMove = 'found a' + (player.color === card.color
+            ? ' fellow spy!'
+            : card.color === 'white'
+                ? ' bystander.'
+                : card.color === 'black'
+                    ? 'n assassin'
+                    : 'n enemy spy!'
+        );
+        mostRecentMove += `(${card.word.toUpperCase()})(${card.color})`;
+        this.mostRecentMove = mostRecentMove;
     }
 
     makeMove(idx, playerId) {
-        const player = this.players[playerId] 
+        const player = this.players[playerId]
         const card = this.cards[idx]
         if (player.color === this.currentTurnColor) card.isRevealed = true
-        
+
         this.setMostRecentMove(player, card)
         this.winner = this.findWinner()
 
@@ -119,7 +117,7 @@ class Game {
         }
         else if (this.cards.filter(c => c.color === color2 && c.isRevealed).length === 8) {
             return color2
-        } 
+        }
         else if (this.cards.filter(c => c.color === "black" && c.isRevealed).length) {
             return this.otherColor(this.currentTurnColor)
         }

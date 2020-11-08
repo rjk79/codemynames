@@ -45,10 +45,14 @@ class Game extends React.Component {
             this.setState({ game: data })
         });
 
-        this.pingInterval = setInterval(() => {
-            console.log("emitting")
-            this.socket.emit('send message', { message: 'ping', gameId: 0})
-        }, 7000)
+        // this.pingInterval = setInterval(() => {
+        //     console.log("emitting")
+        //     this.socket.emit('ping', {})
+        // }, 7000)
+
+        // this.socket.on("receive pong", data => {
+        //     console.log("receive pong")
+        // });
     }
 
     numberRevealedIn(color) {
@@ -127,7 +131,7 @@ class Game extends React.Component {
         request.onload = function () {
             self.setState({hintResponse: JSON.parse(this.response)})
         }
-        
+
         request.send()
     }
 
@@ -152,11 +156,33 @@ class Game extends React.Component {
             messageLis = []
             messages.forEach((m, i) => {
                 const sender = Object.values(game.players).filter(p => p.username === m.name)[0]
-                let playerColor = "gray" 
+                let playerColor = "gray"
                 if (sender && !sender.isUndercover) playerColor = translateColor(sender.color) //handles disconnected players
-                messageLis.push(<div key={i} ><strong style={{color: playerColor}}>{m.name}</strong>{": " + m.message}</div>)
+
+                const moveFeedback = /\([a-zA-Z!\. ]+\)\([a-zA-Z]+\)/g
+                let foundWord, wordColor;
+
+                if (moveFeedback.test(m.message)) {
+                    const boldedRegex = /\([a-zA-Z! ]+\)/g
+                    foundWord = m.message.match(boldedRegex)[0];
+                }
+
+                const formattedMessageTxt = foundWord
+                    ? (<>{m.message.split('(')[0]}
+                        <strong>
+                            {foundWord}
+                        </strong></>)
+                    : (<>{m.message}</>)
+
+                messageLis.push(
+                    <div key={i} className="message">
+                        <strong style={{ color: playerColor }}>
+                            {m.name + ': '}
+                        </strong>{formattedMessageTxt}
+                    </div>
+                )
             })
-            
+
             currentUserObject = Object.values(game.players).filter(p => p.username === currentUser)[0]
             yourColor = currentUserObject.color
             gameName = game.id
@@ -171,14 +197,14 @@ class Game extends React.Component {
             team2PlayerLis = this.teamPlayerLis(2)
             score = (
                 <div className="score">
-                    <div style={{color: translateColor(game.color1)}}>{9 - numberRevealedIn(game.color1)}</div> 
+                    <div style={{color: translateColor(game.color1)}}>{9 - numberRevealedIn(game.color1)}</div>
                     -
                     <div style={{color: translateColor(game.color2)}}>{8 - numberRevealedIn(game.color2)}</div>
                 </div>
             )
             if (timeShowing) turnTime = formatSeconds(game.turnTime);
 
-            if (!currentUserObject.isUndercover ) spyMasterButton = <button className="btn btn-primary" onClick={this.changeSpymasterStatus}>{!currentUserObject.isSpymaster ? "Become Spymaster" : "Stop Being Spymaster"} </button> 
+            if (!currentUserObject.isUndercover ) spyMasterButton = <button className="btn btn-primary" onClick={this.changeSpymasterStatus}>{!currentUserObject.isSpymaster ? "Become Spymaster" : "Stop Being Spymaster"} </button>
             if (!currentUserObject.isUndercover) changeTeamButton = <button className="btn btn-primary" onClick={this.changeTeam}>Change Team</button>
             undercoverButton = !currentUserObject.isSpymaster ? <button className="btn btn-primary" onClick={this.changeUndercoverStatus}>{!currentUserObject.isUndercover ? "Go Undercover" : "Reveal Your Cover"} </button> : null
             undercoverLis = Object.values(game.players).filter(p => p.isUndercover).map((p, i) => (<li key={i}>{p.username} {currentUserObject.username === p.username ? "(" + p.color.toUpperCase() + " Team - shhh!)" : null} </li>))
@@ -192,7 +218,7 @@ class Game extends React.Component {
         ) : null;
 
         return (
-            <div className="App">                
+            <div className="App">
                 <div className="main">
                     <div className="game">
                         <div className="game-codes">
@@ -208,7 +234,7 @@ class Game extends React.Component {
                             {changeTurnButton}
                         </div>
 
-                        <Board game={game} 
+                        <Board game={game}
                             makeMove={makeMove}
                             currentUser={currentUser}
                         />
@@ -221,17 +247,17 @@ class Game extends React.Component {
                                 <div style={{ color: game ? translateColor(game.color2) : "" }}>Team {game && game.color2.toUpperCase()}:</div>
                                 {team2PlayerLis}
                             </div>
-                            <div className="team-list">
+                            {/* <div className="team-list">
                                 <div style={{ color: "gray" }}>Undercover Agents:</div>
                                 {undercoverLis}
-                            </div>
+                            </div> */}
                         </div>
                         <div className="game-controls">
                             {/* <Link className="btn btn-primary" to="/">Return to Home Page</Link> */}
                             {changeTeamButton}
                             {spyMasterButton}
                             {/* <button className="btn btn-primary" onClick={this.setTimeShowing}>Show/Hide Timer</button> */}
-                            {undercoverButton}
+                            {/* {undercoverButton} */}
                         </div>
                         </div>
                     <div className="messaging-controls">
@@ -240,23 +266,25 @@ class Game extends React.Component {
                             {messageLis}
                         </div>
                         <form onSubmit={sendMessage}>
-                            <span className="emoji-dropdown-container" 
-                                onClick={() => this.setState({showEmojiPicker: !this.state.showEmojiPicker})}>
-                                <div className="label">
-                                    <Emoji emoji={{
-                                        colons: ":grin:",
-                                        emoticons: [],
-                                        id: "grin",
-                                        name: "Grinning Face with Smiling Eyes",
-                                        native: "😁",
-                                        short_names: ["grin"],
-                                        skin: null,
-                                        unified: "1f601",
-                                    }} size={25} />
-                                </div>
-                                {emojiPicker}
-                            </span>
-                            <input type="text" onChange={handleSetMessage} value={message} placeholder="Message"/>
+                            <div className="inputs">
+                                <input type="text" onChange={handleSetMessage} value={message} placeholder="Message"/>
+                                <span className="emoji-dropdown-container"
+                                    onClick={() => this.setState({showEmojiPicker: !this.state.showEmojiPicker})}>
+                                    <div className={`label ${this.state.showEmojiPicker ? 'focus' : ''}`}>
+                                        <Emoji emoji={{
+                                            colons: ":grinning:",
+                                            emoticons: [],
+                                            id: "grinning",
+                                            name: "Grinning Face",
+                                            native: "😀",
+                                            short_names: ["grinning"],
+                                            skin: null,
+                                            unified: "1f600",
+                                        }} size={25} />
+                                    </div>
+                                    {emojiPicker}
+                                </span>
+                            </div>
                             <input type="submit" value="Send Message" className="btn btn-primary send" />
                         </form>
                         <button className="btn btn-primary" onClick={resetGame}>New Game</button>
