@@ -1,6 +1,6 @@
 import React from "react";
 import io from "socket.io-client";
-import './App.scss'
+import './App.css'
 import Game from './Game'
 import Welcome from './Welcome'
 import { Switch } from 'react-router-dom';
@@ -20,19 +20,19 @@ class Codemynames extends React.Component {
     handleSetCurrentUser(e) {
         this.setState({ currentUser: e.target.value })
     }
-    
+
     render() {
         const {currentUser} = this.state
         const { handleSetCurrentUser } = this
         return (
             <>
                 <Switch className="container-fluid">
-                    <Welcome exact path="/" socket={socket} 
+                    <Welcome exact path="/" socket={socket}
                         currentUser={currentUser}
                         handleSetCurrentUser={handleSetCurrentUser}
                         />
-                    <Game exact path="/game" 
-                        socket={socket} 
+                    <Game exact path="/game"
+                        socket={socket}
                         currentUser={currentUser}
                         />
                 </Switch>

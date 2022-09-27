@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
-import './Board.scss'
+import './Board.css'
 import { translateColor } from '../utils'
 
 class Board extends Component {
-    
+
     render() {
         const {game, makeMove, currentUser } = this.props
         const cards = game && game.cards
 
-        
+
         const grid = []
         if (cards) {
             const currentUserObject = Object.values(game.players).filter(p => p.username === currentUser)[0]
@@ -31,10 +31,10 @@ class Board extends Component {
                     const style = {}
                     // normal view, spymaster view, game over view
                     if (card.isRevealed) {
-                        style.background = color 
+                        style.background = color
                         if (card.color === 'white') {
                             style.color = 'black'
-                        } 
+                        }
                         else if (card.color === 'black') {
                             style.color = 'white'
                         }

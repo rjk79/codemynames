@@ -1,7 +1,7 @@
 import Board from './Board/Board'
 import React from "react";
 // import io from "socket.io-client";
-import './App.scss'
+import './App.css'
 import { translateColor, formatSeconds } from './utils'
 import "emoji-mart/css/emoji-mart.css";
 import { Picker, Emoji } from "emoji-mart";
